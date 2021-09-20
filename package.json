@@ -12,8 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^6.2.1",
     "bcrypt": "^5.0.1",
+    "concurrently": "^6.2.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
@@ -29,6 +29,7 @@
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
+    "nodemon": "^2.0.12",
     "prettier": "^2.4.1"
   },
   "eslintConfig": {
