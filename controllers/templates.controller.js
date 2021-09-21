@@ -26,7 +26,7 @@ module.exports.templatesController = {
   },
   getTemplateById: async (req, res) => {
     try {
-      const meme = await Template.findById(req.params.id);
+      const meme = await Template.findById(req.params.templateId);
       res.json(meme);
     } catch (e) {
       res.status(401).json({ error: e.toString() });
