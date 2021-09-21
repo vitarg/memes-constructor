@@ -1,4 +1,5 @@
 const Meme = require("../models/Meme.model");
+const Template = require('../models/Template.model');
 
 module.exports.memesController = {
   getAllMemes: async (req, res) => {
@@ -11,12 +12,13 @@ module.exports.memesController = {
   },
   addMeme: async (req, res) => {
     try {
+      const template = await Template.findById(req.params.templateId)
       const meme = await Meme.create({
-        img: req.body.img,
+        img: template.img,
         author: req.body.author, // возьмем из токена
         likes: [],
         tags: [],
-        templateId: req.body.templateId, // потом возьмем Id с помощью req.params.templateId
+        templateId: template._id
       });
       res.json(meme);
     } catch (e) {
