@@ -12,12 +12,14 @@ module.exports.memesController = {
   },
   addMeme: async (req, res) => {
     try {
-      const template = await Template.findById(req.params.templateId)
+      const template = await Template.findById(req.params.templateId);
+      const {tag} = req.body
+
       const meme = await Meme.create({
         img: template.img,
         author: req.body.author, // возьмем из токена
         likes: [],
-        tags: [],
+        tags: template.tags.concat(tag),
         templateId: template._id
       });
       res.json(meme);
