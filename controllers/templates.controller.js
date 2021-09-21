@@ -18,7 +18,7 @@ module.exports.templatesController = {
   },
   getAllTemplates: async (req, res) => {
     try {
-      const allTemplates = Template.find();
+      const allTemplates = await Template.find();
       res.json(allTemplates);
     } catch (e) {
       res.status(401).json({ error: e.toString() });
@@ -26,7 +26,7 @@ module.exports.templatesController = {
   },
   getTemplateById: async (req, res) => {
     try {
-      const meme = Template.findById(req.params.id);
+      const meme = await Template.findById(req.params.id);
       res.json(meme);
     } catch (e) {
       res.status(401).json({ error: e.toString() });
