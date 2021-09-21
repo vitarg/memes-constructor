@@ -11,7 +11,7 @@ app.use(fileUpload());
 app.use(require("./routes/index"));
 
 mongoose.connect(process.env.MONGO).then(() => {
-  app.listen(() => console.log("Server has been started..."));
+  app.listen(process.env.PORT, () => console.log("Server has been started..."));
 
   console.log("Connected with MongoDB");
 });
