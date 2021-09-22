@@ -5,11 +5,11 @@ const User = require("../models/User.model");
 module.exports.usersController = {
   postUser: async (req, res) => {
     try {
-      const { login, password } = req.body;
+      const { email, password, name, img } = req.body;
 
-      const hash = await bcrypt.hash(password, Number(process.env.BCRYPY));
+      const hash = await bcrypt.hash(password, 10);
 
-      const findLog = await User.findOne({ login });
+      const findLog = await User.findOne({ email });
 
       if (findLog) {
         return res
@@ -18,14 +18,16 @@ module.exports.usersController = {
       }
 
       await User.create({
-        login,
+        email,
+        name,
+        img,
         password: hash,
       });
       res.json("Пользователь создан");
     } catch (err) {
       res
         .status(400)
-        .json({ error: "Ошибка при регистрации: " + err.toString() });
+        .json({ error: `Ошибка при регистрации: ${err.toString()}` });
     }
   },
   getUsers: async (req, res) => {
@@ -38,12 +40,12 @@ module.exports.usersController = {
   },
   login: async (req, res) => {
     try {
-      const { login, password } = req.body;
+      const { email, password } = req.body;
 
-      const candidate = await User.findOne({ login });
+      const candidate = await User.findOne({ email });
 
       if (!candidate) {
-        return res.status(401).json({ error: "Неверный логин" });
+        return res.status(401).json({ error: "Неверный email" });
       }
 
       const valid = await bcrypt.compare(password, candidate.password);
