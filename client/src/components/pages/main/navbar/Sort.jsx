@@ -1,24 +1,39 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import { useDispatch } from "react-redux";
+import { getMemes } from "../../../../redux/features/memes";
 
 const Sort = () => {
-  // const [alignment, setAlignment] = React.useState('web');
-  //
-  // const handleChange = (event, newAlignment) => {
-  //   setAlignment(newAlignment);
-  // };
+  const [sort, setSort] = useState("")
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getMemes(sort));
+  }, [sort]);
 
   return (
-    <div>fg</div>
-    // <ToggleButtonGroup
-    //   color="primary"
-    //   value={alignment}
-    //   exclusive
-    //   onChange={handleChange}
-    // >
-    //   <ToggleButton value="web">Web</ToggleButton>
-    //   <ToggleButton value="android">Android</ToggleButton>
-    //   <ToggleButton value="ios">iOS</ToggleButton>
-    // </ToggleButtonGroup>
+    <div>
+      <FormControl required sx={{ m: 1, minWidth: 120 }}>
+        <InputLabel id="demo-simple-select-required-label">Sort</InputLabel>
+        <Select
+          labelId="demo-simple-select-required-label"
+          id="demo-simple-select-required"
+          value={sort}
+          label="Age *"
+          onChange={(e) => setSort(e.target.value)}
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value="new">По дате</MenuItem>
+          <MenuItem value="popular">По популярности</MenuItem>
+        </Select>
+      </FormControl>
+  </div>
   )
 };
 

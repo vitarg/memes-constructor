@@ -83,7 +83,7 @@ function SignupPage(props) {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} onSubmit={(e) => handleSubmit(e)} noValidate>
+        <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={2}>
           <Grid item xs={12}>
               <TextField
