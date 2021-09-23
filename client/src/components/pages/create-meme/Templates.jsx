@@ -34,7 +34,7 @@ const Templates = () => {
     <Grid container spacing={4}>
       {templates.map((e) => {
         return (
-          <Grid item xs={12} sm={6} md={3} lg={4} >
+          <Grid item xs={12} sm={6} md={3} lg={4}>
             <Paper>
               <Card>
                 <CardMedia component="img" image={e.img} alt="item" />
@@ -44,6 +44,7 @@ const Templates = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
+
                   <Button color={"primary"} variant={"contained"} size="medium">
                     Выбрать
                   </Button>
