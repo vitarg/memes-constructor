@@ -7,6 +7,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <div style={{ backgroundColor: "green" }}>Шапка сайта</div>
+
       <Switch>
         <Route exact path="/">
           <MainPage />
