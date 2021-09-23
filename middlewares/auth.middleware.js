@@ -1,13 +1,13 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
-  const { autorization } = req.headers;
+  const { authorization } = req.headers;
 
-  if (!autorization) {
+  if (!authorization) {
     return res.status(401).json("Нет доступа у тибя");
   }
 
-  const [type, token] = autorization.split(" ");
+  const [type, token] = authorization.split(" ");
 
   if (type !== "Bearer") {
     return res.status(401).json("Неверный тип токена у тибя");
@@ -18,6 +18,6 @@ module.exports = (req, res, next) => {
 
     next();
   } catch (e) {
-    return res.status(401).json("Неверный токен у тибя");
+    return res.status(401).json(e);
   }
 };
