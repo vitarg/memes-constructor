@@ -5,7 +5,7 @@ const User = require("../models/User.model");
 module.exports.usersController = {
   postUser: async (req, res) => {
     try {
-      const { email, password, name, img } = req.body;
+      const { email, password, name, avatar } = req.body;
 
       const hash = await bcrypt.hash(password, 10);
 
@@ -20,7 +20,7 @@ module.exports.usersController = {
       await User.create({
         email,
         name,
-        img,
+        avatar,
         password: hash,
       });
       res.json("Пользователь создан");
