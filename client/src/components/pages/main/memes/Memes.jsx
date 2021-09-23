@@ -22,7 +22,7 @@ const Memes = () => {
                   component="img"
                   alt="green iguana"
                   height="400"
-                  image="./logo192.png"
+                  image={item.img}
                 />
                 <CardActions>
                   <Button variant="contained" color={'primary'}>Сделать мем</Button>
