@@ -4,10 +4,8 @@ import {
   Button,
   Card,
   CardActions,
-  CardContent,
   CardMedia,
   Grid,
-  Typography
 } from '@material-ui/core';
 
 
@@ -18,25 +16,18 @@ const Memes = () => {
       {memes.map((item) => {
         return (
           <Grid item xs={3}>
+
             <Card sx={{ maxWidth: 345 }}>
               <CardMedia
                 component="img"
                 alt="green iguana"
-                height="140"
+                height="280"
                 image="./logo192.png"
               />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {item._id}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over 6,000
-                  species, ranging across all continents except Antarctica
-                </Typography>
-              </CardContent>
               <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
+                <Button size="small">Сделать мем</Button>
+                <Button size="small">Сохранить</Button>
+
               </CardActions>
             </Card>
           </Grid>
