@@ -1,17 +1,18 @@
 import React from "react";
+
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import Header from "./Header/Header";
+import SignInPage from "./pages/SigninPage"
+import SignUpPage from "./pages/SignupPage"
 import MainPage from "./pages/main/MainPage";
 import CreateMemePage from "./pages/create-meme/CreateMemePage";
 import { Button } from "@material-ui/core";
 
+
 const App = () => {
   return (
     <BrowserRouter>
-      <div style={{ backgroundColor: "green" }}>
-        <Button component={Link} to={"/"}>
-          На главную
-        </Button>
-      </div>
+      <Header />
 
       <Switch>
         <Route exact path="/">
@@ -19,6 +20,12 @@ const App = () => {
         </Route>
         <Route path="/create-meme">
           <CreateMemePage />
+        </Route>
+        <Route path="/sign-in">
+          <SignInPage />
+        </Route>
+        <Route path="/sign-up">
+          <SignUpPage />
         </Route>
       </Switch>
     </BrowserRouter>
