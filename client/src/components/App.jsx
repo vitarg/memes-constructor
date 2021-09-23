@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import HomePage from './pages/HomePage';
+import MainPage from './pages/main/MainPage';
 
 const App = () => {
   return (
@@ -8,7 +8,7 @@ const App = () => {
       <div style={{backgroundColor: 'green'}}>Шапка сайта</div>
       <Switch>
         <Route exact path="/">
-          <HomePage/>
+          <MainPage/>
         </Route>
       </Switch>
     </BrowserRouter>
