@@ -1,12 +1,6 @@
-import React from "react";
+import React, { useState, useSelector } from "react";
 import { TextField } from "@material-ui/core";
 
-const Search = () => {
-  return (
-    <div>
-      <TextField id="outlined-search" label="Search field" type="search" />
-    </div>
-  );
-};
+const Search = () => {};
 
 export default Search;
