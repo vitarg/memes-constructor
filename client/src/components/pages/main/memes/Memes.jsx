@@ -27,7 +27,6 @@ const Memes = () => {
       }
     }
   });
-
   return (
     <Box sx={{ flexGrow: 1 }} style={{ marginTop: 30 }}>
       <div>
