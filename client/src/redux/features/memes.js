@@ -10,6 +10,11 @@ export default function memes(state = initialState, action) {
         ...state,
         memes: action.payload,
       };
+    case "memes/getByAuthor/fulfilled":
+      return {
+        state,
+        memes: action.payload,
+      };
     default:
       return state;
   }
@@ -29,6 +34,21 @@ export const getMemes = (sort) => {
       await dispatch({ type: "memes/fetch/fulfilled", payload: json });
     } catch (e) {
       dispatch({ type: "memes/fetch/rejected", error: e.toString() });
+    }
+  };
+};
+
+export const getMemesByAuthor = (id) => {
+  return async (dispatch) => {
+    try {
+      let url = `/memes/${id}`;
+
+      const memes = await fetch(url);
+      const json = await memes.json();
+
+      await dispatch({ type: "memes/getByAuthor/fulfilled", payload: json });
+    } catch (e) {
+      dispatch({ type: "memes/getByAuthor/rejected", error: e.toString() });
     }
   };
 };

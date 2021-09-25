@@ -31,7 +31,7 @@ export default function templates(state = initialState, action) {
 export const getTemplates = () => async (dispatch) => {
   dispatch({ type: "templates/fetch/pending" });
 
-  const response = await fetch("http://localhost:4000/templates");
+  const response = await fetch("/templates");
   const json = await response.json();
 
   if (json.error) {
