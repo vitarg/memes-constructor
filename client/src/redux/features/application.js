@@ -1,4 +1,6 @@
 const initialState = {
+  id: localStorage.getItem("id"),
+  user: {},
   signinUp: false,
   signinIn: false,
   error: null,
@@ -35,6 +37,7 @@ export default function application(state = initialState, action) {
         ...state,
         signinIn: false,
         token: action.payload.token,
+        id: action.payload.id,
       };
     case "application/signin/rejected":
       return {
@@ -45,9 +48,15 @@ export default function application(state = initialState, action) {
     case "application/logout/fullfilled":
       return {
         ...state,
+        user: {},
         token: null,
+        id: null,
       };
-
+    case "application/getUser/fullfilled":
+      return {
+        ...state,
+        user: action.payload,
+      };
     default:
       return state;
   }
@@ -98,6 +107,7 @@ export const auth = (email, password) => {
         payload: { json },
       });
       localStorage.setItem("token", json.token);
+      localStorage.setItem("id", json.id);
     }
   };
 };
@@ -106,5 +116,21 @@ export const logOut = () => {
   return async (dispatch) => {
     dispatch({ type: "application/logout/fullfilled" });
     localStorage.clear();
+  };
+};
+
+export const getUser = (id) => {
+  return async (dispatch) => {
+    dispatch({ type: "application/getUser/pending" });
+
+    const response = await fetch(`/users/${id}`);
+
+    const json = await response.json();
+
+    if (json.error) {
+      dispatch({ type: "application/getUser/rejected", error: json.error });
+    } else {
+      dispatch({ type: "application/getUser/fullfilled", payload: json });
+    }
   };
 };

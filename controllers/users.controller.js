@@ -38,6 +38,14 @@ module.exports.usersController = {
       res.json(err);
     }
   },
+  getUser: async (req, res) => {
+    try {
+      const data = await User.findById(req.params.id);
+      res.json(data);
+    } catch (err) {
+      res.json(err);
+    }
+  },
   login: async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -62,7 +70,7 @@ module.exports.usersController = {
         expiresIn: "24h",
       });
 
-      return res.json({ token });
+      return res.json({ token, id: payload.id });
     } catch (err) {
       res.json(err);
     }

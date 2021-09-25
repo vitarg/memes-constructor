@@ -5,7 +5,6 @@ const Template = require("../models/Template.model");
 module.exports.memesController = {
   getAllMemes: async (req, res) => {
     try {
-
       const { sort } = req.query;
       let allMemes;
       switch (sort) {
@@ -20,7 +19,7 @@ module.exports.memesController = {
           allMemes = await Meme.find({});
           break;
       }
-  
+
       res.json(allMemes);
     } catch (e) {
       res.status(401).json({ error: e.toString() });
@@ -66,6 +65,14 @@ module.exports.memesController = {
       res.json("Мем удален");
     } catch (e) {
       res.status(401).json({ error: e.toString() });
+    }
+  },
+  getByAuthor: async (req, res) => {
+    try {
+      const data = await Meme.find({ author: req.params.id });
+      res.json(data);
+    } catch (err) {
+      res.json(err);
     }
   },
 };
