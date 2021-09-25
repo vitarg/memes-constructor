@@ -11,6 +11,7 @@ import {
 
 const Memes = () => {
   const memes = useSelector((state) => state.memes.memes);
+
   return (
     <Box sx={{ flexGrow: 1 }} style={{marginTop: 30}}>
       <Grid container spacing={3}>
@@ -26,7 +27,9 @@ const Memes = () => {
                 />
                 <CardActions>
                   <Button variant="contained" color={'primary'}>Сделать мем</Button>
-                  <Button variant="contained" color={'secondary'}>Сохранить</Button>
+                  <Button variant="contained" color="primary">
+                    Сохранить
+                  </Button>
                 </CardActions>
               </Card>
             </Grid>
