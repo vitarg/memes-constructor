@@ -21,13 +21,15 @@ function Header() {
           Войти
         </Button>
       ) : (
-        <Button variant="primary" color="error" onClick={handleLogout}>
-          Выйти
-        </Button>
+        <>
+          <Button variant="primary" color="error" onClick={handleLogout}>
+            <Link to={`/`}>Выйти</Link>
+          </Button>
+          <Link to={`/account/${id}`}>
+            <AccountCircleIcon />
+          </Link>
+        </>
       )}
-      <Link to={`/account/${id}`}>
-        <AccountCircleIcon />
-      </Link>
     </AppBar>
   );
 }
