@@ -18,7 +18,6 @@ const Templates = () => {
 
   const loading = useSelector((state) => state.templates.loading);
   const templates = useSelector((state) => state.templates.items);
-  const notTemplate = "Нет ни одного шаблона";
 
   useEffect(() => {
     dispatch(getTemplates());
@@ -26,9 +25,8 @@ const Templates = () => {
 
   if (loading) return <CircularProgress />;
 
-  if (templates.length === 0) return <Typography>{notTemplate}</Typography>;
-
-  console.log(templates);
+  if (templates.length === 0)
+    return <Typography>Нет ни одного шаблона</Typography>;
 
   return (
     <Grid container spacing={4}>
@@ -44,7 +42,6 @@ const Templates = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-
                   <Button color={"primary"} variant={"contained"} size="medium">
                     Выбрать
                   </Button>
