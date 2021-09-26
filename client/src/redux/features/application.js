@@ -57,6 +57,14 @@ export default function application(state = initialState, action) {
         ...state,
         user: action.payload,
       };
+    case "application/uploadAvatar/fullfilled":
+      return {
+        ...state,
+        user: {
+          ...setTimeout.user,
+          avatar: action.payload,
+        },
+      };
     default:
       return state;
   }
@@ -131,6 +139,45 @@ export const getUser = (id) => {
       dispatch({ type: "application/getUser/rejected", error: json.error });
     } else {
       dispatch({ type: "application/getUser/fullfilled", payload: json });
+    }
+  };
+};
+
+export const uploadAvatar = (file) => {
+  return async (dispatch) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await fetch(`/users/avatar`, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const json = await response.json();
+
+      dispatch({ type: "application/uploadAvatar/fullfilled", payload: json });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const deleteAvatar = (file) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`/users/avatar`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const json = await response.json();
+
+      dispatch({ type: "application/uploadAvatar/fullfilled" });
+    } catch (e) {
+      console.log(e);
     }
   };
 };
