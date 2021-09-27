@@ -36,8 +36,8 @@ export default function application(state = initialState, action) {
       return {
         ...state,
         signinIn: false,
-        token: action.payload.token,
-        id: action.payload.id,
+        token: action.payload.json.token,
+        id: action.payload.json.id,
       };
     case "application/signin/rejected":
       return {
@@ -97,7 +97,7 @@ export const auth = (email, password) => {
     const response = await fetch("/users/login", {
       method: "POST",
       body: JSON.stringify({
-        email: email,
+        email,
         password,
       }),
       headers: {
@@ -106,7 +106,7 @@ export const auth = (email, password) => {
     });
 
     const json = await response.json();
-
+    console.log(json);
     if (json.error) {
       dispatch({ type: "application/signin/rejected", error: json.error });
     } else {
