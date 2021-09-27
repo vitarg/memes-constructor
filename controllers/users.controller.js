@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
+const uuid = require("uuid");
+const fs = require("fs");
 
 module.exports.usersController = {
   postUser: async (req, res) => {
@@ -73,6 +75,34 @@ module.exports.usersController = {
       return res.json({ token, id: payload.id });
     } catch (err) {
       res.json(err);
+    }
+  },
+  uploadAvatar: async (req, res) => {
+    try {
+      const file = req.files.file;
+      const user = await User.findById(req.user.id);
+      const avatarName = uuid.v4() + ".jpg";
+
+      file.mv(`./public/${avatarName}`);
+      user.avatar = avatarName;
+
+      await user.save();
+      res.json(avatarName);
+    } catch (e) {
+      res.json(e);
+    }
+  },
+  removeAvatar: async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+
+      fs.unlinkSync(`./public/${user.avatar}`);
+      user.avatar = null;
+      await user.save();
+
+      res.json("Аватар удален");
+    } catch (e) {
+      res.json(e);
     }
   },
 };
