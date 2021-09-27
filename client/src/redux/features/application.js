@@ -61,7 +61,7 @@ export default function application(state = initialState, action) {
       return {
         ...state,
         user: {
-          ...setTimeout.user,
+          ...state.user,
           avatar: action.payload,
         },
       };

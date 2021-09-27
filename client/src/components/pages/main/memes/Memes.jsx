@@ -10,44 +10,50 @@ import {
 } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { getMemes, setCurrentPage } from '../../../../redux/features/memes';
-import { createPages } from '../../../../utils/pagesCreator';
+import { getMemes, setCurrentPage } from "../../../../redux/features/memes";
+import { createPages } from "../../../../utils/pagesCreator";
 
 const useStyles = makeStyles({
   pages: {
     marginTop: 20,
   },
   page: {
-    border: 'solid',
+    border: "solid",
     borderWidth: 1,
-    borderColor: 'lightgray',
+    borderColor: "lightgray",
     borderRadius: 40,
-    padding: 10, paddingTop: 5, paddingBottom: 5,
-    marginRight: 10, marginLeft: 10,
-    cursor: 'pointer'
+    padding: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+    marginRight: 10,
+    marginLeft: 10,
+    cursor: "pointer",
   },
   currentPage: {
-    border: 'solid',
+    border: "solid",
     borderWidth: 2,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderRadius: 40,
-    padding: 10, paddingTop: 5, paddingBottom: 5,
-    marginRight: 10, marginLeft: 10,
-    cursor: 'pointer'
-  }
+    padding: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+    marginRight: 10,
+    marginLeft: 10,
+    cursor: "pointer",
+  },
 });
 
-const Memes = ({currentPage}) => {
-  const dispatch = useDispatch()
+const Memes = ({ currentPage }) => {
+  const dispatch = useDispatch();
 
-  const classes = useStyles()
+  const classes = useStyles();
 
   const memes = useSelector((state) => state.memes.memes);
   const perPage = useSelector((state) => state.memes.perPage);
   const totalCount = useSelector((state) => state.memes.totalCount);
-  const pagesCount = Math.ceil(totalCount/perPage);
-  const pages =[];
-  createPages(pages, pagesCount, currentPage)
+  const pagesCount = Math.ceil(totalCount / perPage);
+  const pages = [];
+  createPages(pages, pagesCount, currentPage);
   const [search, setSearch] = useState("");
 
   const data = memes.filter((item) => {
@@ -99,11 +105,17 @@ const Memes = ({currentPage}) => {
         })}
       </Grid>
       <div className={classes.pages}>
-        {pages.map((item, index) => <span
-          className={currentPage === item ? classes.currentPage: classes.page}
-          key={index}
-          onClick={() => dispatch(setCurrentPage(item))}
-          >{item}</span>)}
+        {pages.map((item, index) => (
+          <span
+            className={
+              currentPage === item ? classes.currentPage : classes.page
+            }
+            key={index}
+            onClick={() => dispatch(setCurrentPage(item))}
+          >
+            {item}
+          </span>
+        ))}
       </div>
     </Box>
   );
