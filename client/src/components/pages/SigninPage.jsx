@@ -1,30 +1,31 @@
-import React, { useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { useDispatch, useSelector } from 'react-redux';
-import {auth} from "../../redux/features/application"
-import {Link} from "react-router-dom"
+import React, { useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import { useDispatch, useSelector } from "react-redux";
+import { auth } from "../../redux/features/application";
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -34,32 +35,38 @@ const useStyles = makeStyles((theme) => ({
     color: "red",
     padding: "6px",
     width: "395px",
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 }));
 
 function SigninPage() {
   const dispatch = useDispatch();
   const classes = useStyles();
+  const history = useHistory();
 
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const signinIn = useSelector((state) => state.application.signinIn)
-  const error = useSelector((state) => state.application.error)
+  const signinIn = useSelector((state) => state.application.signinIn);
+  const error = useSelector((state) => state.application.error);
+  const token = useSelector((state) => state.application.token);
 
   const HandleChangeEmail = (e) => {
-    setEmail(e.target.value)
-  }
+    setEmail(e.target.value);
+  };
 
   const HandleChangePassword = (e) => {
-    setPassword(e.target.value)
-  }
+    setPassword(e.target.value);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(auth(email,password))
+    dispatch(auth(email, password));
+  };
+
+  if (token) {
+    history.push("/");
   }
 
   return (
@@ -72,7 +79,11 @@ function SigninPage() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} onSubmit={(e) => handleSubmit(e)} noValidate>
+        <form
+          className={classes.form}
+          onSubmit={(e) => handleSubmit(e)}
+          noValidate
+        >
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
