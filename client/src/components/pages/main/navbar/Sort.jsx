@@ -3,18 +3,17 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getMemes } from "../../../../redux/features/memes";
 
-const Sort = () => {
-  const [sort, setSort] = useState("")
+const Sort = ({currentPage}) => {
+
+  const [sort, setSort] = useState("");
 
   const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch(getMemes(sort));
-  }, [sort]);
-
+    dispatch(getMemes(sort, currentPage));
+  }, [sort, currentPage]);
   return (
     <div>
       <FormControl required sx={{ m: 1, minWidth: 120 }}>
