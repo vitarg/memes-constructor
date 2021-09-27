@@ -5,21 +5,21 @@ const Template = require("../models/Template.model");
 module.exports.memesController = {
   getAllMemes: async (req, res) => {
     try {
-      const { sort } = req.query;
+      const { sort, page = 1, limit = 3 } = req.query;
       let allMemes;
-      switch (sort) {
+      switch (sort, page) {
         case "popular":
           allMemes = await Meme.find({});
-          allMemes = allMemes.sort((a, b) => b.likes.length - a.likes.length);
+          allMemes = allMemes.sort((a, b) => b.likes.length - a.likes.length).limit(limit * 1).skip((page - 1) * limit);
           break;
         case "new":
-          allMemes = await Meme.find({}).sort({ createdAt: -1 });
+          allMemes = await Meme.find({}).sort({ createdAt: -1 }).limit(limit * 1).skip((page - 1) * limit);
           break;
         default:
-          allMemes = await Meme.find({});
+          allMemes = await Meme.find({}).limit(limit * 1).skip((page - 1) * limit);
           break;
       }
-
+      console.log(allMemes)
       res.json(allMemes);
     } catch (e) {
       res.status(401).json({ error: e.toString() });
