@@ -18,6 +18,8 @@ import {
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons//Edit";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
 
 const useStyles = makeStyles((theme) => ({
   profile: {
@@ -57,6 +59,10 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "auto",
     marginTop: "10px",
     textAlign: "center",
+  },
+  btnCont: {
+    display: "flex",
+    justifyContent: "space-between",
   },
 }));
 
@@ -142,12 +148,12 @@ function Account() {
                       alt="green iguana"
                       image={item.img}
                     />
-                    <CardActions>
-                      <Button variant="contained" color={"primary"}>
-                        Сделать мем
+                    <CardActions className={classes.btnCont}>
+                      <Button variant="secondary" color={"secondary"}>
+                        <GetAppIcon style={{ color: "black" }} />
                       </Button>
-                      <Button variant="contained" color={"secondary"}>
-                        Сохранить
+                      <Button variant="secondary" color={"secondary"}>
+                        <BookmarkIcon />
                       </Button>
                     </CardActions>
                   </Card>
