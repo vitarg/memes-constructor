@@ -14,9 +14,60 @@ import {
   CardMedia,
   CardActions,
   Button,
+  makeStyles,
 } from "@material-ui/core";
+import EditIcon from "@material-ui/icons//Edit";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
+
+const useStyles = makeStyles((theme) => ({
+  profile: {
+    paddingLeft: "25px",
+    textAlign: "center",
+  },
+  inp: {
+    display: "none",
+  },
+  avatar: {
+    marginTop: "15px",
+    borderRadius: "50%",
+    width: "155px",
+    height: "155px",
+  },
+  delBtn: {
+    backgroundColor: "transparent",
+    border: "none",
+  },
+  name: {
+    fontSize: "20px",
+    fontFamily: "sans-serif",
+    border: "1px solid black",
+    display: "inline-block",
+    padding: "0px 7px",
+    borderRadius: "5px",
+  },
+  title: {
+    fontSize: "42px",
+    letterSpacing: "0",
+    fontWeight: "600",
+    color: "#383e45",
+    marginBottom: "8px",
+    lineHeight: "46px",
+    maxWidth: "800px",
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: "10px",
+    textAlign: "center",
+  },
+  btnCont: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+}));
 
 function Account() {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const { id } = useParams();
   const user = useSelector((state) => state.application.user);
@@ -39,17 +90,18 @@ function Account() {
   return (
     <>
       <Grid container>
-        <Grid item xs="2">
+        <Grid className={classes.profile} item xs="2">
           <Grid item>
             {user.avatar ? (
               <img
-                width={"155px"}
+                className={classes.avatar}
                 src={`http://localhost:4000/${user.avatar}`}
                 alt="avatar"
                 loading="lazy"
               />
             ) : (
               <img
+                className={classes.avatar}
                 width={"155px"}
                 src={`https://thumbs.dreamstime.com/b/default-avatar-profile-vector-user-profile-default-avatar-profile-vector-user-profile-profile-179376714.jpg`}
                 alt="avatar"
@@ -58,45 +110,50 @@ function Account() {
             )}
           </Grid>
           <Grid item>
-            <button onClick={() => dispatch(deleteAvatar())}>Удалить</button>
-          </Grid>
-          <Grid item>
+            <label for="inp">
+              <EditIcon />
+            </label>
             <input
+              id="inp"
+              className={classes.inp}
               accept="image/*"
               onChange={(e) => handlerChange(e)}
               type="file"
-              opacity
               placeholder="загрузить аватар"
             ></input>
+            <button
+              className={classes.delBtn}
+              onClick={() => dispatch(deleteAvatar())}
+            >
+              <HighlightOffIcon />
+            </button>
           </Grid>
           <Grid item>
-            <Typography component="h4">{user.name}</Typography>
-          </Grid>
-          <Grid item>
-            <Typography component="h4">{user.email}</Typography>
+            <Typography className={classes.name} component="h4">
+              {user.name}
+            </Typography>
           </Grid>
         </Grid>
         <Grid item xs="9">
-          <Typography component="h1" variant="h4">
+          <Typography component="h1" variant="h4" className={classes.title}>
             Мои мемы
           </Typography>
           <Grid container spacing={3}>
             {memes.map((item) => {
               return (
-                <Grid item xs={4}>
+                <Grid item xs={3}>
                   <Card sx={{ maxWidth: 345 }}>
                     <CardMedia
                       component="img"
                       alt="green iguana"
-                      height="400"
                       image={item.img}
                     />
-                    <CardActions>
-                      <Button variant="contained" color={"primary"}>
-                        Сделать мем
+                    <CardActions className={classes.btnCont}>
+                      <Button variant="secondary" color={"secondary"}>
+                        <GetAppIcon style={{ color: "black" }} />
                       </Button>
-                      <Button variant="contained" color={"secondary"}>
-                        Сохранить
+                      <Button variant="secondary" color={"secondary"}>
+                        <BookmarkIcon />
                       </Button>
                     </CardActions>
                   </Card>

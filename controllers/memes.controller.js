@@ -7,16 +7,23 @@ module.exports.memesController = {
     try {
       const { sort, page = 1, limit = 3 } = req.query;
       let allMemes;
-      switch (sort, page) {
+      switch ((sort, page)) {
         case "popular":
-          allMemes = await Meme.find({});
-          allMemes = allMemes.sort((a, b) => b.likes.length - a.likes.length).limit(limit * 1).skip((page - 1) * limit);
+          allMemes = allMemes
+            .sort((a, b) => b.likes.length - a.likes.length)
+            .limit(limit * 1)
+            .skip((page - 1) * limit);
           break;
         case "new":
-          allMemes = await Meme.find({}).sort({ createdAt: -1 }).limit(limit * 1).skip((page - 1) * limit);
+          allMemes = await Meme.find({})
+            .sort({ createdAt: -1 })
+            .limit(limit * 1)
+            .skip((page - 1) * limit);
           break;
         default:
-          allMemes = await Meme.find({}).limit(limit * 1).skip((page - 1) * limit);
+          allMemes = await Meme.find({})
+            .limit(limit * 1)
+            .skip((page - 1) * limit);
           break;
       }
       res.json(allMemes);
@@ -25,16 +32,8 @@ module.exports.memesController = {
     }
   },
   addMeme: async (req, res) => {
-    const { authorization } = req.headers;
-
-    const [type, token] = authorization.split(" ");
-
-    if (type !== "Bearer") {
-      return res.status(401).json("неверный тип токена");
-    }
-
     try {
-      const payload = await jwt.verify(token, process.env.SECRET_JWT_KEY);
+      const payload = req.user;
       const template = await Template.findById(req.params.templateId);
 
       const { tags } = await req.body;

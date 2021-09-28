@@ -20,18 +20,21 @@ const useStyles = makeStyles({
     marginTop: 20,
   },
   page: {
-    border: 'solid',
+    border: "solid",
     borderWidth: 1,
-    borderColor: 'lightgray',
+    borderColor: "lightgray",
     borderRadius: 40,
-    padding: 10, paddingTop: 5, paddingBottom: 5,
-    marginRight: 10, marginLeft: 10,
-    cursor: 'pointer'
+    padding: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+    marginRight: 10,
+    marginLeft: 10,
+    cursor: "pointer",
   },
   currentPage: {
-    border: 'solid',
+    border: "solid",
     borderWidth: 2,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderRadius: 40,
     padding: 10, paddingTop: 5, paddingBottom: 5,
     marginRight: 10, marginLeft: 10,
@@ -43,17 +46,17 @@ const useStyles = makeStyles({
   }
 });
 
-const Memes = ({currentPage}) => {
-  const dispatch = useDispatch()
+const Memes = ({ currentPage }) => {
+  const dispatch = useDispatch();
 
-  const classes = useStyles()
+  const classes = useStyles();
 
   const memes = useSelector((state) => state.memes.memes);
   const perPage = useSelector((state) => state.memes.perPage);
   const totalCount = useSelector((state) => state.memes.totalCount);
-  const pagesCount = Math.ceil(totalCount/perPage);
-  const pages =[];
-  createPages(pages, pagesCount, currentPage)
+  const pagesCount = Math.ceil(totalCount / perPage);
+  const pages = [];
+  createPages(pages, pagesCount, currentPage);
   const [search, setSearch] = useState("");
   const token = useSelector(state => state.application.token);
 
@@ -92,7 +95,6 @@ const Memes = ({currentPage}) => {
                 <CardMedia
                   component="img"
                   alt="green iguana"
-                  height="400"
                   image={item.img}
                 />
                 <CardActions>
@@ -111,11 +113,17 @@ const Memes = ({currentPage}) => {
         })}
       </Grid>
       <div className={classes.pages}>
-        {pages.map((item, index) => <span
-          className={currentPage === item ? classes.currentPage: classes.page}
-          key={index}
-          onClick={() => dispatch(setCurrentPage(item))}
-          >{item}</span>)}
+        {pages.map((item, index) => (
+          <span
+            className={
+              currentPage === item ? classes.currentPage : classes.page
+            }
+            key={index}
+            onClick={() => dispatch(setCurrentPage(item))}
+          >
+            {item}
+          </span>
+        ))}
       </div>
     </Box>
   );
