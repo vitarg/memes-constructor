@@ -1,4 +1,3 @@
-const jwt = require("jsonwebtoken");
 const Meme = require("../models/Meme.model");
 const Template = require("../models/Template.model");
 
@@ -71,6 +70,26 @@ module.exports.memesController = {
       res.json(data);
     } catch (err) {
       res.json(err);
+    }
+  },
+  patchMeme: async (req, res) => {
+    try {
+      const candidate = await Meme.findOne({
+        $and: [{ _id: req.params.id }, { likes: req.user.id }],
+      });
+      if (candidate) {
+        await Meme.findByIdAndUpdate(req.params.id, {
+          $pull: { likes: req.user.id },
+        });
+        return res.status(200).json({ status: false, memeId: req.params.id });
+      } else {
+        await Meme.findByIdAndUpdate(req.params.id, {
+          $push: { likes: req.user.id },
+        });
+        return res.status(200).json({ status: true, memeId: req.params.id });
+      }
+    } catch (e) {
+      res.status(401).json({ error: e.toString() });
     }
   },
 };
