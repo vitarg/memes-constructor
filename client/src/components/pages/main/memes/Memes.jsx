@@ -10,10 +10,14 @@ import {
 } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { getMemes, setCurrentPage } from '../../../../redux/features/memes';
-import { createPages } from '../../../../utils/pagesCreator';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import {
+  getMemes,
+  likeMeme,
+  setCurrentPage,
+} from "../../../../redux/features/memes";
+import { createPages } from "../../../../utils/pagesCreator";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const useStyles = makeStyles({
   pages: {
@@ -36,14 +40,17 @@ const useStyles = makeStyles({
     borderWidth: 2,
     borderColor: "gray",
     borderRadius: 40,
-    padding: 10, paddingTop: 5, paddingBottom: 5,
-    marginRight: 10, marginLeft: 10,
-    cursor: 'pointer'
+    padding: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+    marginRight: 10,
+    marginLeft: 10,
+    cursor: "pointer",
   },
   like: {
-    position: 'relative',
-    right: '22px'
-  }
+    position: "relative",
+    right: "22px",
+  },
 });
 
 const Memes = ({ currentPage }) => {
@@ -51,6 +58,7 @@ const Memes = ({ currentPage }) => {
 
   const classes = useStyles();
 
+  const userId = useSelector((state) => state.application.id);
   const memes = useSelector((state) => state.memes.memes);
   const perPage = useSelector((state) => state.memes.perPage);
   const totalCount = useSelector((state) => state.memes.totalCount);
@@ -58,11 +66,10 @@ const Memes = ({ currentPage }) => {
   const pages = [];
   createPages(pages, pagesCount, currentPage);
   const [search, setSearch] = useState("");
-  const token = useSelector(state => state.application.token);
 
-  // const likeMeme = (userId) => {
-  //   dispatch(likePush(userId))
-  // }
+  const handleLike = (idMeme) => {
+    dispatch(likeMeme(idMeme));
+  };
 
   const data = memes.filter((item) => {
     if (item.tags.length > 0) {
@@ -104,7 +111,13 @@ const Memes = ({ currentPage }) => {
                   <Button variant="contained" color={"secondary"}>
                     Сохранить
                   </Button>
-                  <Button ><FavoriteBorderIcon/></Button>
+                  <Button onClick={() => handleLike(item._id)}>
+                    {item.likes.find((item) => userId === item) ? (
+                      <FavoriteIcon />
+                    ) : (
+                      <FavoriteBorderIcon />
+                    )}
+                  </Button>
                   <div className={classes.like}>{item.likes.length}</div>
                 </CardActions>
               </Card>
