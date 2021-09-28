@@ -87,7 +87,6 @@ const Memes = ({ currentPage }) => {
                 <CardMedia
                   component="img"
                   alt="green iguana"
-                  height="400"
                   image={item.img}
                 />
                 <CardActions>
