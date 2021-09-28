@@ -2,6 +2,7 @@ const initialState = {
   loading: false,
   items: [],
   error: null,
+  img: null,
 };
 
 export default function templates(state = initialState, action) {
@@ -23,6 +24,12 @@ export default function templates(state = initialState, action) {
         loading: false,
         error: action.error,
       };
+    case "templates/choice":
+      return {
+        ...state,
+        loading: false,
+        img: action.payload,
+      };
     default:
       return state;
   }
@@ -39,4 +46,8 @@ export const getTemplates = () => async (dispatch) => {
   } else {
     dispatch({ type: "templates/fetch/fulfilled", payload: json });
   }
+};
+
+export const choiceTemplate = (img) => (dispatch) => {
+  dispatch({ type: "templates/choice", payload: img });
 };
