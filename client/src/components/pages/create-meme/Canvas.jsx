@@ -37,7 +37,7 @@ const Canvas = () => {
     <ImageEditor
       includeUI={{
         loadImage: {
-          path: img,
+          path: '',
           name: "SampleImage",
         },
         locale: locale_ru_RU,
