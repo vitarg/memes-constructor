@@ -19,7 +19,6 @@ module.exports.memesController = {
           allMemes = await Meme.find({}).limit(limit * 1).skip((page - 1) * limit);
           break;
       }
-      console.log(allMemes)
       res.json(allMemes);
     } catch (e) {
       res.status(401).json({ error: e.toString() });

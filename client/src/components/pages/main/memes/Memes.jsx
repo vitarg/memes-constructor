@@ -12,6 +12,8 @@ import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { getMemes, setCurrentPage } from '../../../../redux/features/memes';
 import { createPages } from '../../../../utils/pagesCreator';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const useStyles = makeStyles({
   pages: {
@@ -34,6 +36,10 @@ const useStyles = makeStyles({
     padding: 10, paddingTop: 5, paddingBottom: 5,
     marginRight: 10, marginLeft: 10,
     cursor: 'pointer'
+  },
+  like: {
+    position: 'relative',
+    right: '22px'
   }
 });
 
@@ -49,6 +55,11 @@ const Memes = ({currentPage}) => {
   const pages =[];
   createPages(pages, pagesCount, currentPage)
   const [search, setSearch] = useState("");
+  const token = useSelector(state => state.application.token);
+
+  // const likeMeme = (userId) => {
+  //   dispatch(likePush(userId))
+  // }
 
   const data = memes.filter((item) => {
     if (item.tags.length > 0) {
@@ -91,7 +102,8 @@ const Memes = ({currentPage}) => {
                   <Button variant="contained" color={"secondary"}>
                     Сохранить
                   </Button>
-                  <div>{item._id}</div>
+                  <Button ><FavoriteBorderIcon/></Button>
+                  <div className={classes.like}>{item.likes.length}</div>
                 </CardActions>
               </Card>
             </Grid>
