@@ -26,7 +26,6 @@ module.exports.memesController = {
             .skip((page - 1) * limit);
           break;
       }
-
       res.json(allMemes);
     } catch (e) {
       res.status(401).json({ error: e.toString() });
