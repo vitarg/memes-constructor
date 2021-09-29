@@ -63,8 +63,14 @@ export const setCurrentPage = (page) => ({
 export const getMemes = (sort, currentPage) => {
   return async (dispatch) => {
     try {
-      let url = `/memes?page=${currentPage}&limit=3`;
+      let url = `/memes?page=1&limit=3`;
       if (sort) {
+        url = `/memes?sort=${sort}&page=1&limit=3`;
+      }
+      if (currentPage) {
+        url = `/memes?page=${currentPage}&limit=3`;
+      }
+      if (sort && currentPage) {
         url = `/memes?sort=${sort}&page=${currentPage}&limit=3`;
       }
       const memes = await fetch(url);
