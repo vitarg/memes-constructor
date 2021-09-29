@@ -8,10 +8,8 @@ module.exports.memesController = {
       let allMemes;
       switch ((sort, page)) {
         case "popular":
-          allMemes = allMemes
-            .sort((a, b) => b.likes.length - a.likes.length)
-            .limit(limit * 1)
-            .skip((page - 1) * limit);
+          allMemes = await Meme.find({});
+          allMemes = allMemes.sort((a, b) => b.likes.length - a.likes.length);
           break;
         case "new":
           allMemes = await Meme.find({})
