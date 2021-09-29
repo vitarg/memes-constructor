@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import "tui-image-editor/dist/tui-image-editor.css";
 import ImageEditor from "@toast-ui/react-image-editor";
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 });
 
 const myTheme = {
-  // Theme object to extends default dark theme.
+
 };
 
 const locale_ru_RU = {
@@ -33,17 +33,20 @@ const locale_ru_RU = {
 
 const Canvas = () => {
   const classes = useStyles();
+
+  const instance = new ImageEditor();
+
   return (
     <ImageEditor
       includeUI={{
         loadImage: {
-          path: '',
+          path: "",
           name: "SampleImage",
         },
         locale: locale_ru_RU,
         theme: myTheme,
         menu: ["text", "crop"],
-        initMenu: "filter",
+        initMenu: "text",
         uiSize: {
           width: "1000px",
           height: "700px",
