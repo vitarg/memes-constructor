@@ -18,6 +18,7 @@ import {
 import { createPages } from "../../../../utils/pagesCreator";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import createSpacing from "@material-ui/core/styles/createSpacing";
 
 const useStyles = makeStyles({
   pages: {
@@ -48,8 +49,16 @@ const useStyles = makeStyles({
     cursor: "pointer",
   },
   like: {
-    position: "relative",
-    right: "22px",
+    display: "flex",
+    marginLeft: "auto !important",
+    color: "red",
+  },
+  countLikes: {
+    color: "#171717",
+    fontSize: 16,
+  },
+  icon: {
+    fontSize: "24px !important",
   },
 });
 
@@ -111,14 +120,21 @@ const Memes = ({ currentPage }) => {
                   <Button variant="contained" color={"secondary"}>
                     Сохранить
                   </Button>
-                  <Button onClick={() => handleLike(item._id)}>
-                    {item.likes.find((item) => userId === item) ? (
-                      <FavoriteIcon />
-                    ) : (
-                      <FavoriteBorderIcon />
-                    )}
+                  <Button
+                    className={classes.like}
+                    onClick={() => handleLike(item._id)}
+                    startIcon={
+                      item.likes.find((item) => userId === item) ? (
+                        <FavoriteIcon className={classes.icon} />
+                      ) : (
+                        <FavoriteBorderIcon className={classes.icon} />
+                      )
+                    }
+                  >
+                    <span className={classes.countLikes}>
+                      {item.likes.length}
+                    </span>
                   </Button>
-                  <div className={classes.like}>{item.likes.length}</div>
                 </CardActions>
               </Card>
             </Grid>
