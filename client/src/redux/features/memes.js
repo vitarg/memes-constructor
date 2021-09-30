@@ -52,11 +52,6 @@ export default function memes(state = initialState, action) {
   }
 }
 
-export const setCurrentPage = (page) => ({
-  type: "setCurrentPage/fetch/fulfilled",
-  payload: page,
-});
-
 export const getMemes = (sort, currentPage) => {
   return async (dispatch) => {
     try {
