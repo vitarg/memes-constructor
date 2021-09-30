@@ -35,7 +35,7 @@ function SingleMemePage(props) {
 
   useEffect(() => {
     dispatch(getComments());
-  }, [comments]);
+  }, [dispatch]);
 
   const handleComment = (e) => {
     e.preventDefault();
