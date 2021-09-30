@@ -4,24 +4,18 @@ const Template = require("../models/Template.model");
 module.exports.memesController = {
   getAllMemes: async (req, res) => {
     try {
-      const { sort, page = 1, limit = 3 } = req.query;
+      const { sort } = req.query;
       let allMemes;
-      switch ((sort, page)) {
+      switch (sort) {
         case "popular":
-          allMemes = await Meme.find({});
+          allMemes = await Meme.find();
           allMemes = allMemes.sort((a, b) => b.likes.length - a.likes.length);
           break;
         case "new":
-          allMemes = await Meme.find({})
-            .sort({ createdAt: -1 })
-            .limit(limit * 1)
-            .skip((page - 1) * limit);
+          allMemes = await Meme.find().sort("-createdAt");
           break;
         default:
-          allMemes = await Meme.find({})
-            .limit(limit * 1)
-            .skip((page - 1) * limit);
-          break;
+          allMemes = await Meme.find();
       }
       res.json(allMemes);
     } catch (e) {

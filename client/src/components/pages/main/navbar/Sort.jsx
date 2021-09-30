@@ -1,19 +1,18 @@
-import React, { useState,useEffect } from "react";
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import React, { useState, useEffect } from "react";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 import { useDispatch, useSelector } from "react-redux";
 import { getMemes } from "../../../../redux/features/memes";
 
-const Sort = ({currentPage}) => {
-
+const Sort = () => {
   const [sort, setSort] = useState("");
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getMemes(sort, currentPage));
-  }, [sort, currentPage]);
+    dispatch(getMemes(sort));
+  }, [sort]);
   return (
     <div>
       <FormControl required sx={{ m: 1, minWidth: 120 }}>
@@ -32,8 +31,8 @@ const Sort = ({currentPage}) => {
           <MenuItem value="popular">По популярности</MenuItem>
         </Select>
       </FormControl>
-  </div>
-  )
+    </div>
+  );
 };
 
 export default Sort;
