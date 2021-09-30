@@ -9,11 +9,23 @@ export default function memes(state = initialState, action) {
       return {
         ...state,
         memes: action.payload,
+        loading: false
+      };
+    case "memes/fetch/pending":
+      return {
+        ...state,
+        loading: true,
+      };
+    case "memes/getByAuthor/pending":
+      return {
+        ...state,
+        loading: true,
       };
     case "memes/getByAuthor/fulfilled":
       return {
         state,
         memes: action.payload,
+        loading: false
       };
     case "setCurrentPage/fetch/fulfilled":
       return {
@@ -60,6 +72,7 @@ export const setCurrentPage = (page) => ({
 export const getMemes = (sort, currentPage) => {
   return async (dispatch) => {
     try {
+      dispatch({type: "memes/fetch/pending"})
       let url = `/memes`;
       if (sort) {
         url = `/memes?sort=${sort}`;
@@ -78,6 +91,7 @@ export const getMemes = (sort, currentPage) => {
 export const getMemesByAuthor = (id) => {
   return async (dispatch) => {
     try {
+      dispatch({type: "memes/getByAuthor/pending"})
       let url = `/memes/${id}`;
 
       const memes = await fetch(url);
@@ -91,7 +105,6 @@ export const getMemesByAuthor = (id) => {
 };
 export const likeMeme = (idMeme) => async (dispatch) => {
   try {
-    console.log(idMeme);
     const res = await fetch(`/memes/likes/${idMeme}`, {
       method: "POST",
       body: JSON.stringify({ idMeme }),

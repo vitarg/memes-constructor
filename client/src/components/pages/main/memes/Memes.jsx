@@ -15,6 +15,7 @@ import { likeMeme } from "../../../../redux/features/memes";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import createSpacing from "@material-ui/core/styles/createSpacing";
+import Pending from '../../preloader/Pending';
 
 const useStyles = makeStyles({
   pages: {
@@ -64,12 +65,11 @@ const Memes = () => {
 
   const userId = useSelector((state) => state.application.id);
   const memes = useSelector((state) => state.memes.memes);
+  const loading = useSelector((state) => state.memes.loading);
   const [search, setSearch] = useState("");
-
   const handleLike = (idMeme) => {
     dispatch(likeMeme(idMeme));
   };
-
   const data = memes.filter((item) => {
     if (item.tags.length > 0) {
       for (let i = 0; i < item.tags.length; i++) {
@@ -93,6 +93,7 @@ const Memes = () => {
           value={search}
         />
       </div>
+      {loading ? <Pending/> :
       <Grid container spacing={3}>
         {data.map((item) => {
           return (
@@ -133,9 +134,9 @@ const Memes = () => {
                 </CardActions>
               </Card>
             </Grid>
-          );
-        })}
+        )})}
       </Grid>
+      }
     </Box>
   );
 };
