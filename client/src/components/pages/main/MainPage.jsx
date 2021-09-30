@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Memes from "./memes/Memes";
 import TopNavbar from "./navbar/TopNavbar";
-import { useDispatch, useSelector } from 'react-redux';
-import { getMemes } from '../../../redux/features/memes';
+import { useSelector } from "react-redux";
 
 const MainPage = () => {
   const currentPage = useSelector((state) => state.memes.currentPage);
 
   return (
-    <div style={{padding: 30}}>
-      <TopNavbar currentPage={currentPage}/>
-      <Memes currentPage={currentPage}/>
+    <div style={{ padding: 30 }}>
+      <TopNavbar currentPage={currentPage} />
+      <Memes currentPage={currentPage} />
     </div>
   );
 };
