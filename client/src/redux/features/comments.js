@@ -13,7 +13,7 @@ export default function comments(state = initialState, action) {
     case "comments/create/fulfilled":
       return {
         ...state,
-        comments: [...state.comments, action.payload],
+        comments: [action.payload, ...state.comments],
       };
     default:
       return state;
