@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   Box,
   Button,
@@ -103,8 +104,13 @@ const Memes = () => {
                   image={item.img}
                 />
                 <CardActions>
-                  <Button variant="contained" color={"primary"}>
-                    Сделать мем
+                  <Button
+                    component={Link}
+                    to={`/memes/${item._id}`}
+                    variant="contained"
+                    color={"primary"}
+                  >
+                    Подробнее
                   </Button>
                   <Button variant="contained" color={"secondary"}>
                     Сохранить
