@@ -20,6 +20,7 @@ import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { getMemes } from "../../../../redux/features/memes";
 
 const useStyles = makeStyles({
   pages: {
@@ -71,6 +72,10 @@ const Memes = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
+  useEffect(() => {
+    dispatch(getMemes());
+  }, []);
+
   const userId = useSelector((state) => state.application.id);
   const memes = useSelector((state) => state.memes.memes);
   const loading = useSelector((state) => state.memes.loading);
@@ -109,6 +114,7 @@ const Memes = () => {
           value={search}
           variant={'outlined'}
         />
+        <Link to={"/randomMeme"}>Рандомный мэм</Link>
       </div>
       {loading ? (
         <Pending />

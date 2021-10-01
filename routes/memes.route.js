@@ -5,6 +5,7 @@ const authMiddleware = require("../middlewares/auth.middleware");
 const router = Router();
 
 router.get("/memes", memesController.getAllMemes);
+router.get("/memes/rnd", memesController.randomMeme);
 router.get("/memes/:id", memesController.getByAuthor);
 router.post("/memes/:templateId", authMiddleware, memesController.addMeme);
 router.delete("/memes/:memeId", memesController.removeMeme);

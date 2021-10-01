@@ -9,7 +9,7 @@ export default function memes(state = initialState, action) {
       return {
         ...state,
         memes: action.payload,
-        loading: false
+        loading: false,
       };
     case "memes/fetch/pending":
       return {
@@ -25,7 +25,7 @@ export default function memes(state = initialState, action) {
       return {
         state,
         memes: action.payload,
-        loading: false
+        loading: false,
       };
     case "setCurrentPage/fetch/fulfilled":
       return {
@@ -59,6 +59,11 @@ export default function memes(state = initialState, action) {
           return item;
         }),
       };
+    case "memes/rnd/fulfilled":
+      return {
+        ...state,
+        memes: action.payload,
+      };
     default:
       return state;
   }
@@ -67,7 +72,7 @@ export default function memes(state = initialState, action) {
 export const getMemes = (sort, currentPage) => {
   return async (dispatch) => {
     try {
-      dispatch({type: "memes/fetch/pending"})
+      dispatch({ type: "memes/fetch/pending" });
       let url = `/memes`;
       if (sort) {
         url = `/memes?sort=${sort}`;
@@ -86,7 +91,7 @@ export const getMemes = (sort, currentPage) => {
 export const getMemesByAuthor = (id) => {
   return async (dispatch) => {
     try {
-      dispatch({type: "memes/getByAuthor/pending"})
+      dispatch({ type: "memes/getByAuthor/pending" });
       let url = `/memes/${id}`;
 
       const memes = await fetch(url);
@@ -118,4 +123,19 @@ export const likeMeme = (idMeme) => async (dispatch) => {
   } catch (e) {
     dispatch({ type: "memes/likeMeme/rejected", error: e.toString() });
   }
+};
+
+export const rndMeme = () => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: "memes/rnd/pending" });
+
+      const memes = await fetch("/memes/rnd");
+      const json = await memes.json();
+
+      await dispatch({ type: "memes/rnd/fulfilled", payload: json });
+    } catch (e) {
+      dispatch({ type: "memes/rnd/rejected", error: e.toString() });
+    }
+  };
 };
