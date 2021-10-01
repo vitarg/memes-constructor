@@ -20,6 +20,7 @@ import EditIcon from "@material-ui/icons//Edit";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
+import Pending from './preloader/Pending';
 
 const useStyles = makeStyles((theme) => ({
   profile: {
@@ -72,6 +73,7 @@ function Account() {
   const { id } = useParams();
   const user = useSelector((state) => state.application.user);
   const memes = useSelector((state) => state.memes.memes);
+  const loading = useSelector((state) => state.memes.loading);
 
   useEffect(() => {
     dispatch(getUser(id));
@@ -138,29 +140,31 @@ function Account() {
           <Typography component="h1" variant="h4" className={classes.title}>
             Мои мемы
           </Typography>
-          <Grid container spacing={3}>
-            {memes.map((item) => {
-              return (
-                <Grid item xs={3}>
-                  <Card sx={{ maxWidth: 345 }}>
-                    <CardMedia
-                      component="img"
-                      alt="green iguana"
-                      image={item.img}
-                    />
-                    <CardActions className={classes.btnCont}>
-                      <Button variant="secondary" color={"secondary"}>
-                        <GetAppIcon style={{ color: "black" }} />
-                      </Button>
-                      <Button variant="secondary" color={"secondary"}>
-                        <BookmarkIcon />
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              );
-            })}
-          </Grid>
+          {loading ? <Pending/> :
+            <Grid container spacing={3}>
+              {memes.map((item) => {
+                return (
+                  <Grid item xs={3}>
+                    <Card sx={{ maxWidth: 345 }}>
+                      <CardMedia
+                        component="img"
+                        alt="green iguana"
+                        image={item.img}
+                      />
+                      <CardActions className={classes.btnCont}>
+                        <Button variant="secondary" color={"secondary"}>
+                          <GetAppIcon style={{ color: "black" }}/>
+                        </Button>
+                        <Button variant="secondary" color={"secondary"}>
+                          <BookmarkIcon/>
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                );
+              })}
+            </Grid>
+          }
         </Grid>
       </Grid>
     </>

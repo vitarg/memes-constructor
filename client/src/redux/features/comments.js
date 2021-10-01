@@ -9,6 +9,12 @@ export default function comments(state = initialState, action) {
       return {
         ...state,
         comments: action.payload,
+        loading: false
+      };
+    case "comments/fetch/pending":
+      return {
+        ...state,
+        loading: true,
       };
     case "comments/create/fulfilled":
       return {
@@ -23,6 +29,7 @@ export default function comments(state = initialState, action) {
 export const getComments = () => {
   return async (dispatch) => {
     try {
+      dispatch({ type: "comments/fetch/pending"});
       const data = await fetch("/comments");
       const json = await data.json();
 

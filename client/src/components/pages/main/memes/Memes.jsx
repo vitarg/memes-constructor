@@ -15,6 +15,11 @@ import { likeMeme } from "../../../../redux/features/memes";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import createSpacing from "@material-ui/core/styles/createSpacing";
+import Pending from "../../preloader/Pending";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const useStyles = makeStyles({
   pages: {
@@ -68,10 +73,17 @@ const Memes = () => {
 
   const userId = useSelector((state) => state.application.id);
   const memes = useSelector((state) => state.memes.memes);
+  const loading = useSelector((state) => state.memes.loading);
+  const token = useSelector((state) => state.application.token);
   const [search, setSearch] = useState("");
+  const [alert, setAlert] = useState(false);
 
   const handleLike = (idMeme) => {
-    dispatch(likeMeme(idMeme));
+    if (!token) {
+      setAlert(true);
+    } else {
+      dispatch(likeMeme(idMeme));
+    }
   };
 
   const data = memes.filter((item) => {
@@ -98,49 +110,86 @@ const Memes = () => {
           variant={'outlined'}
         />
       </div>
-      <Grid container spacing={3}>
-        {data.map((item) => {
-          return (
-            <Grid item xs={4}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardMedia
-                  component="img"
-                  alt="green iguana"
-                  image={item.img}
-                />
-                <CardActions>
-                  <Button
-                    component={Link}
-                    to={`/memes/${item._id}`}
-                    variant="contained"
-                    color={"primary"}
+      {loading ? (
+        <Pending />
+      ) : (
+        <>
+          <Grid container spacing={3}>
+            {data.map((item) => {
+              return (
+                <Grid item xs={4}>
+                  <Card sx={{ maxWidth: 345 }}>
+                    <CardMedia
+                      component="img"
+                      alt="green iguana"
+                      image={item.img}
+                    />
+                    <CardActions>
+                      <Button
+                        component={Link}
+                        to={`/memes/${item._id}`}
+                        variant="contained"
+                        color={"primary"}
+                      >
+                        Подробнее
+                      </Button>
+                      <Button variant="contained" color={"secondary"}>
+                        Сохранить ;
+                      </Button>
+                      <Button
+                        className={classes.like}
+                        onClick={() => handleLike(item._id)}
+                        startIcon={
+                          item.likes.find((item) => userId === item) ? (
+                            <FavoriteIcon className={classes.icon} />
+                          ) : (
+                            <FavoriteBorderIcon className={classes.icon} />
+                          )
+                        }
+                      >
+                        <span className={classes.countLikes}>
+                          {item.likes.length}
+                        </span>
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              );
+            })}
+          </Grid>
+          {alert ? (
+            <Stack
+              sx={{
+                width: "30%",
+                position: "fixed",
+                top: "20%",
+                left: "470px",
+              }}
+              spacing={2}
+            >
+              <Alert
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setAlert(false);
+                    }}
                   >
-                    Подробнее
-                  </Button>
-                  <Button variant="contained" color={"secondary"}>
-                    Сохранить
-                  </Button>
-                  <Button
-                    className={classes.like}
-                    onClick={() => handleLike(item._id)}
-                    startIcon={
-                      item.likes.find((item) => userId === item) ? (
-                        <FavoriteIcon className={classes.likedIcon} />
-                      ) : (
-                        <FavoriteBorderIcon className={classes.notLikedIcon} />
-                      )
-                    }
-                  >
-                    <span className={classes.countLikes}>
-                      {item.likes.length}
-                    </span>
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          );
-        })}
-      </Grid>
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                severity="error"
+              >
+                Для этого действия нужно авторизоваться
+              </Alert>
+            </Stack>
+          ) : (
+            <></>
+          )}
+        </>
+      )}
     </Box>
   );
 };
