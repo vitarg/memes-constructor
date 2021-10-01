@@ -84,4 +84,13 @@ module.exports.memesController = {
       res.status(401).json({ error: e.toString() });
     }
   },
+  randomMeme: async (req, res) => {
+    try {
+      const data = await Meme.find();
+      const rnd = data[Math.floor(Math.random() * data.length)];
+      res.json(rnd);
+    } catch (e) {
+      res.json(e);
+    }
+  },
 };

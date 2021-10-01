@@ -8,6 +8,7 @@ import MainPage from "./pages/main/MainPage";
 import Account from "./pages/Account";
 import CreateMemePage from "./pages/create-meme/CreateMemePage";
 import SingleMemePage from "./pages/SingleMemePage";
+import RandomMemePage from "./pages/RandomMemePage";
 import { Button } from "@material-ui/core";
 
 const App = () => {
@@ -33,6 +34,9 @@ const App = () => {
         </Route>
         <Route path="/memes/:id">
           <SingleMemePage />
+        </Route>
+        <Route path="/RandomMeme">
+          <RandomMemePage />
         </Route>
       </Switch>
     </BrowserRouter>
