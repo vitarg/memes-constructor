@@ -58,8 +58,12 @@ const useStyles = makeStyles({
     color: "#171717",
     fontSize: 16,
   },
-  icon: {
+  likedIcon: {
     fontSize: "24px !important",
+  },
+  notLikedIcon: {
+    fontSize: "24px !important",
+    color: "#171717",
   },
 });
 
@@ -99,10 +103,11 @@ const Memes = () => {
       <div>
         <TextField
           id="outlined-search"
-          label="Search field"
+          label="Поиск по тегу"
           type="search"
           onChange={(e) => setSearch(e.target.value)}
           value={search}
+          variant={'outlined'}
         />
       </div>
       {loading ? (

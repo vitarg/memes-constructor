@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     height: "60px",
     backgroundColor: "#fff",
+    padding: "10px 30px ",
   },
   logoHeader: {
     width: "90px",
@@ -39,10 +40,12 @@ const useStyles = makeStyles((theme) => ({
 
 function Header() {
   const classes = useStyles();
+
   const dispatch = useDispatch();
+
   const token = useSelector((state) => state.application.token);
   const id = useSelector((state) => state.application.id);
-  console.log(id);
+
   const handleLogout = () => {
     dispatch(logOut());
   };
@@ -50,10 +53,11 @@ function Header() {
   return (
     <AppBar position={"static"}>
       <Box className={classes.header}>
-        <Button component={Link} to={"/"} className={classes.title}>
+        <Button component={Link} to={"/"}>
           <img
             className={classes.logoHeader}
             src={"https://www.iloveimg.com/img/iloveimg.svg"}
+            alt={"logo"}
           />
         </Button>
         {!token ? (

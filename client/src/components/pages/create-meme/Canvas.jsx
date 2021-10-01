@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import "tui-image-editor/dist/tui-image-editor.css";
 import ImageEditor from "@toast-ui/react-image-editor";
@@ -12,11 +12,13 @@ const useStyles = makeStyles({
     justifyContent: "center",
     alignItems: "center",
   },
+  canvas: {
+    width: "80%",
+    height: 500,
+  },
 });
 
-const myTheme = {
-
-};
+const myTheme = {};
 
 const locale_ru_RU = {
   Crop: "Обрезать",
@@ -34,33 +36,60 @@ const locale_ru_RU = {
 const Canvas = () => {
   const classes = useStyles();
 
-  const instance = new ImageEditor();
+  const instanceRef = useRef(null);
 
-  return (
-    <ImageEditor
-      includeUI={{
-        loadImage: {
-          path: "",
-          name: "SampleImage",
-        },
-        locale: locale_ru_RU,
-        theme: myTheme,
-        menu: ["text", "crop"],
-        initMenu: "text",
-        uiSize: {
-          width: "1000px",
-          height: "700px",
-        },
-        menuBarPosition: "right",
-      }}
-      cssMaxHeight={500}
-      cssMaxWidth={700}
-      selectionStyle={{
+  const [topText, setTopText] = useState({
+    text: "top",
+    position: {
+      x: 10,
+      y: 10,
+    },
+  });
+
+  const [bottomText, setBottomText] = useState({
+    text: "bottom",
+    position: {
+      x: 10,
+      y: 100,
+    },
+  });
+
+  const handleChangeTextTop = (e) => {
+    setTopText();
+  };
+
+  useEffect(() => {
+    const ImageEditor = require("tui-image-editor");
+    instanceRef.current = new ImageEditor(document.getElementById("canvas"), {
+      cssMaxWidth: 800,
+      cssMaxHeight: 600,
+      selectionStyle: {
         cornerSize: 20,
         rotatingPointOffset: 70,
-      }}
-      usageStatistics={true}
-    />
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    instanceRef.current
+      .addText(topText.text, {
+        styles: {
+          fill: "#000",
+          fontSize: 20,
+          fontWeight: "bold",
+        },
+        position: topText.position,
+      })
+      .then((objectProps) => {
+        console.log(objectProps.id);
+      });
+  }, [topText]);
+
+  return (
+    <>
+      <div id={"canvas"} className={classes.canvas} />
+      <button>Текст</button>
+    </>
   );
 };
 
