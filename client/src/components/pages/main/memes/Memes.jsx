@@ -21,6 +21,7 @@ import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { getMemes } from "../../../../redux/features/memes";
+import { saveAs } from 'file-saver';
 
 const useStyles = makeStyles({
   pages: {
@@ -91,6 +92,11 @@ const Memes = () => {
     }
   };
 
+  const handleSave = (img) => {
+    const FileSaver = require('file-saver');
+    FileSaver.saveAs(`${img}`, "image.jpg");
+  }
+
   const data = memes.filter((item) => {
     if (item.tags.length > 0) {
       for (let i = 0; i < item.tags.length; i++) {
@@ -139,7 +145,7 @@ const Memes = () => {
                       >
                         Подробнее
                       </Button>
-                      <Button variant="contained" color={"secondary"}>
+                      <Button variant="contained" color={"secondary"} onClick={() => handleSave(item.img)}>
                         Сохранить ;
                       </Button>
                       <Button

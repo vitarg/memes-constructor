@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import "tui-image-editor/dist/tui-image-editor.css";
-import ImageEditor from "@toast-ui/react-image-editor";
+// import ImageEditor from "@toast-ui/react-image-editor";
 
 const useStyles = makeStyles({
   templateWrapper: {
