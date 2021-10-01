@@ -15,16 +15,22 @@ import { getMemes } from "../../redux/features/memes";
 import { getComments } from "../../redux/features/comments";
 import { createComments } from "../../redux/features/comments";
 import Pending from "./preloader/Pending";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 function SingleMemePage(props) {
   const dispatch = useDispatch();
   const memes = useSelector((state) => state.memes.memes);
   const comments = useSelector((state) => state.comments.comments);
   const loading = useSelector((state) => state.comments.loading);
+  const token = useSelector((state) => state.application.token);
 
   const { id } = useParams();
 
   const [comment, setComment] = useState(null);
+  const [alert, setAlert] = useState(false);
 
   useEffect(() => {
     dispatch(getMemes());
@@ -36,7 +42,11 @@ function SingleMemePage(props) {
 
   const handleComment = (e) => {
     e.preventDefault();
-    dispatch(createComments(id, comment));
+    if (!token) {
+      setAlert(true);
+    } else {
+      dispatch(createComments(id, comment));
+    }
   };
 
   const find = memes.find((item) => id === item._id);
@@ -104,6 +114,37 @@ function SingleMemePage(props) {
                   </Box>
                 </Grid>
               </Grid>
+              {alert ? (
+                <Stack
+                  sx={{
+                    width: "30%",
+                    position: "fixed",
+                    top: "20%",
+                    left: "470px",
+                  }}
+                  spacing={2}
+                >
+                  <Alert
+                    action={
+                      <IconButton
+                        aria-label="close"
+                        color="inherit"
+                        size="small"
+                        onClick={() => {
+                          setAlert(false);
+                        }}
+                      >
+                        <CloseIcon fontSize="inherit" />
+                      </IconButton>
+                    }
+                    severity="error"
+                  >
+                    Войдите на аккаунт
+                  </Alert>
+                </Stack>
+              ) : (
+                <></>
+              )}
               {findComm.map((item) => {
                 return (
                   <Paper style={{ padding: "40px 20px", marginTop: 25 }}>
