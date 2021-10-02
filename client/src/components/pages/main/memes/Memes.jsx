@@ -21,6 +21,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { getMemes } from "../../../../redux/features/memes";
 import DownloadIcon from "@mui/icons-material/Download";
+import { saveAs } from "file-saver";
 
 const useStyles = makeStyles({
   pages: {
@@ -91,6 +92,10 @@ const Memes = () => {
     }
   };
 
+  const handleSave = (img) => {
+    saveAs(`http://localhost:4000/${img}`, "meme.jpg");
+  };
+
   const data = memes.filter((item) => {
     if (item.tags.length > 0) {
       for (let i = 0; i < item.tags.length; i++) {
@@ -143,6 +148,7 @@ const Memes = () => {
                         variant="contained"
                         color={"default"}
                         endIcon={<DownloadIcon />}
+                        onClick={() => handleSave(item.img)}
                       >
                         Скачать
                       </Button>
@@ -153,7 +159,9 @@ const Memes = () => {
                           item.likes.find((item) => userId === item) ? (
                             <FavoriteIcon className={classes.likedIcon} />
                           ) : (
-                            <FavoriteBorderIcon className={classes.notLikedIcon} />
+                            <FavoriteBorderIcon
+                              className={classes.notLikedIcon}
+                            />
                           )
                         }
                       >
