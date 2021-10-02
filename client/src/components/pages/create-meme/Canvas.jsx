@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import "tui-image-editor/dist/tui-image-editor.css";
-// import ImageEditor from "@toast-ui/react-image-editor";
+import { saveAs } from "file-saver";
+import { useDispatch, useSelector } from "react-redux";
+import { addMeme } from "../../../redux/features/memes";
 
 const useStyles = makeStyles({
   templateWrapper: {
@@ -18,77 +19,70 @@ const useStyles = makeStyles({
   },
 });
 
-const myTheme = {};
-
-const locale_ru_RU = {
-  Crop: "Обрезать",
-  "Delete-all": "Удалить всё",
-  Text: "Текст",
-  Bold: "Жирный",
-  Italic: "Курсив",
-  Underline: "Подчеркнутый",
-  Load: "Загрузить",
-  Download: "Скачать",
-  Color: "Цвет",
-  "Text size": "Размер шрифта",
-};
-
 const Canvas = () => {
   const classes = useStyles();
 
-  const instanceRef = useRef(null);
+  const dispatch = useDispatch();
 
-  const [topText, setTopText] = useState({
-    text: "top",
-    position: {
-      x: 10,
-      y: 10,
-    },
-  });
+  const template = useSelector((state) => state.templates.template);
 
-  const [bottomText, setBottomText] = useState({
-    text: "bottom",
-    position: {
-      x: 10,
-      y: 100,
-    },
-  });
+  const canvasTitle = template
+    ? ""
+    : "Вы можете выбрать один из шаблонов или загрузить свой";
 
-  const handleChangeTextTop = (e) => {
-    setTopText();
-  };
+  const instance = useRef(null);
 
   useEffect(() => {
     const ImageEditor = require("tui-image-editor");
-    instanceRef.current = new ImageEditor(document.getElementById("canvas"), {
-      cssMaxWidth: 800,
-      cssMaxHeight: 600,
+
+    instance.current = new ImageEditor(document.querySelector("#canvas"), {
+      cssMaxWidth: 700,
+      cssMaxHeight: 500,
       selectionStyle: {
         cornerSize: 20,
         rotatingPointOffset: 70,
       },
     });
+
+    instance.current.startDrawingMode("TEXT");
   }, []);
 
   useEffect(() => {
-    instanceRef.current
-      .addText(topText.text, {
-        styles: {
-          fill: "#000",
-          fontSize: 20,
-          fontWeight: "bold",
-        },
-        position: topText.position,
-      })
-      .then((objectProps) => {
-        console.log(objectProps.id);
+    (async () => {
+      await instance.current
+        .loadImageFromURL(template?.img, "lena")
+        .then((result) => {
+          console.log("old : " + result.oldWidth + ", " + result.oldHeight);
+          console.log("new : " + result.newWidth + ", " + result.newHeight);
+        });
+    })();
+  }, [template]);
+
+  const handleAddText = async () => {
+    await instance.current.on("addText", ({ originPosition }) => {
+      instance.current.addText("", {
+        position: originPosition,
       });
-  }, [topText]);
+    });
+  };
+
+  const handleDownload = () => {
+    saveAs(instance.current.toDataURL());
+  };
+
+  const handlePublication = () => {
+    dispatch(addMeme(instance.current.toDataURL(), template));
+  };
 
   return (
     <>
+      <div className={"select"}>{canvasTitle}</div>
       <div id={"canvas"} className={classes.canvas} />
-      <button>Текст</button>
+      <div>
+        <button onClick={handleAddText}>Добавить текст</button>
+        <button onClick={handlePublication}>Опубликовать</button>
+        <button onClick={handleDownload}>Скачать</button>
+      </div>
     </>
   );
 };

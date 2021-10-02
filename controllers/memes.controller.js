@@ -1,5 +1,7 @@
+const { v4: uuidv4 } = require("uuid");
+const path = require("path");
+const base64ToImage = require("base64-to-image");
 const Meme = require("../models/Meme.model");
-const Template = require("../models/Template.model");
 
 module.exports.memesController = {
   getAllMemes: async (req, res) => {
@@ -25,23 +27,30 @@ module.exports.memesController = {
   addMeme: async (req, res) => {
     try {
       const payload = req.user;
-      const template = await Template.findById(req.params.templateId);
+      const { file, template } = await req.body;
 
-      const { tags } = await req.body;
+      const fileName = `${uuidv4()}`;
+      console.log(fileName, 'файлнейм')
+      const base64Str = file;
+      const pathForMeme = path.resolve(__dirname, "../public/img", fileName);
+      const optionalObj = { fileName: 'da', type: "jpeg" };
+      console.log(optionalObj, 'объект')
+      base64ToImage(base64Str, pathForMeme, optionalObj);
 
       let tagsAuto = "";
-      if (tags !== undefined) {
-        tagsAuto = template.tags.concat(tags);
+
+      if (template.tags !== undefined) {
+        tagsAuto = template.tags.concat(template.tags);
       } else {
         tagsAuto = template.tags;
       }
 
       const meme = await Meme.create({
-        img: template.img,
+        img: `img/${fileName}da.jpeg`,
         author: payload.id,
         likes: [],
         tags: tagsAuto,
-        templateId: template._id,
+        templateId: template.id,
       });
       res.json(meme);
     } catch (e) {
