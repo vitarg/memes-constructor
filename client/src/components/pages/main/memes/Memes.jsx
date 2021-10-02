@@ -20,6 +20,8 @@ import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { getMemes } from "../../../../redux/features/memes";
+import { saveAs } from 'file-saver';
 
 const useStyles = makeStyles({
   pages: {
@@ -71,6 +73,10 @@ const Memes = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
+  useEffect(() => {
+    dispatch(getMemes());
+  }, []);
+
   const userId = useSelector((state) => state.application.id);
   const memes = useSelector((state) => state.memes.memes);
   const loading = useSelector((state) => state.memes.loading);
@@ -85,6 +91,11 @@ const Memes = () => {
       dispatch(likeMeme(idMeme));
     }
   };
+
+  const handleSave = (img) => {
+    const FileSaver = require('file-saver');
+    FileSaver.saveAs(`${img}`, "image.jpg");
+  }
 
   const data = memes.filter((item) => {
     if (item.tags.length > 0) {
@@ -109,6 +120,7 @@ const Memes = () => {
           value={search}
           variant={'outlined'}
         />
+        <Link to={"/randomMeme"}>Рандомный мэм</Link>
       </div>
       {loading ? (
         <Pending />
@@ -133,7 +145,7 @@ const Memes = () => {
                       >
                         Подробнее
                       </Button>
-                      <Button variant="contained" color={"secondary"}>
+                      <Button variant="contained" color={"secondary"} onClick={() => handleSave(item.img)}>
                         Сохранить ;
                       </Button>
                       <Button
