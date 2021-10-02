@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+#canvas {
+  min-width: 80%;
+  min-height: 500px;
+}

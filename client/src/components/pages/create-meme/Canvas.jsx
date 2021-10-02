@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import "tui-image-editor/dist/tui-image-editor.css";
-import ImageEditor from "@toast-ui/react-image-editor";
+import { saveAs } from "file-saver";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles({
   templateWrapper: {
@@ -18,77 +18,84 @@ const useStyles = makeStyles({
   },
 });
 
-const myTheme = {};
-
-const locale_ru_RU = {
-  Crop: "Обрезать",
-  "Delete-all": "Удалить всё",
-  Text: "Текст",
-  Bold: "Жирный",
-  Italic: "Курсив",
-  Underline: "Подчеркнутый",
-  Load: "Загрузить",
-  Download: "Скачать",
-  Color: "Цвет",
-  "Text size": "Размер шрифта",
-};
-
 const Canvas = () => {
   const classes = useStyles();
 
-  const instanceRef = useRef(null);
+  const [select, setSelect] = useState(
+    "Вы можете выбрать один из шаблонов или загрузить свой"
+  );
 
-  const [topText, setTopText] = useState({
-    text: "top",
-    position: {
-      x: 10,
-      y: 10,
-    },
-  });
+  const template = useSelector((state) => state.templates.template);
+  console.log(template?.img, "template");
 
-  const [bottomText, setBottomText] = useState({
-    text: "bottom",
-    position: {
-      x: 10,
-      y: 100,
-    },
-  });
+  const [templateImg, setTemplateImage] = useState(template);
 
-  const handleChangeTextTop = (e) => {
-    setTopText();
-  };
+
+  console.log(templateImg, "state");
+
+  const instance = useRef(null);
 
   useEffect(() => {
     const ImageEditor = require("tui-image-editor");
-    instanceRef.current = new ImageEditor(document.getElementById("canvas"), {
-      cssMaxWidth: 800,
-      cssMaxHeight: 600,
+
+    instance.current = new ImageEditor(document.querySelector("#canvas"), {
+      cssMaxWidth: 700,
+      cssMaxHeight: 500,
       selectionStyle: {
         cornerSize: 20,
         rotatingPointOffset: 70,
       },
     });
+
+    if (templateImg) {
+
+      setTemplateImage(template.img);
+      console.log(templateImg, 'state')
+      instance.current.loadImageFromURL(templateImg, "lena").then((result) => {
+        console.log("old : " + result.oldWidth + ", " + result.oldHeight);
+        console.log("new : " + result.newWidth + ", " + result.newHeight);
+      });
+    }
+
+    instance.current.startDrawingMode("TEXT");
   }, []);
 
-  useEffect(() => {
-    instanceRef.current
-      .addText(topText.text, {
-        styles: {
-          fill: "#000",
-          fontSize: 20,
-          fontWeight: "bold",
-        },
-        position: topText.position,
-      })
-      .then((objectProps) => {
-        console.log(objectProps.id);
+  const handleAddImage = () => {
+    instance.current
+      .loadImageFromURL(
+        "https://images.ctfassets.net/hrltx12pl8hq/7yQR5uJhwEkRfjwMFJ7bUK/dc52a0913e8ff8b5c276177890eb0129/offset_comp_772626-opt.jpg?fit=fill&w=800&h=300",
+        "lena"
+      )
+      .then((result) => {
+        console.log("old : " + result.oldWidth + ", " + result.oldHeight);
+        console.log("new : " + result.newWidth + ", " + result.newHeight);
       });
-  }, [topText]);
+
+    setSelect("");
+  };
+
+  const handleAddText = async () => {
+    await instance.current.on("addText", ({ originPosition }) => {
+      instance.current.addText("", {
+        position: originPosition,
+      });
+    });
+  };
+
+  const handleDownload = () => {
+    saveAs(instance.current.toDataURL());
+  };
 
   return (
     <>
+      <div className={"select"}>{select}</div>
       <div id={"canvas"} className={classes.canvas} />
-      <button>Текст</button>
+      <div>
+        <button onClick={handleAddImage}>Картинка</button>
+        <button onClick={handleAddText}>Текст</button>
+        <button onClick={handleDownload}>Скачать</button>
+      </div>
+      <img src={templateImg} alt="asd" />
     </>
   );
 };
