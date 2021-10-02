@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { getTemplates } from "../../../redux/features/templates";
+import { getTemplates, selectTemplate } from "../../../redux/features/templates";
 
 const Templates = () => {
   const dispatch = useDispatch();
@@ -19,9 +19,14 @@ const Templates = () => {
   const loading = useSelector((state) => state.templates.loading);
   const templates = useSelector((state) => state.templates.items);
 
+
   useEffect(() => {
     dispatch(getTemplates());
   }, []);
+
+  const handleSelectImage = (template) => {
+    dispatch(selectTemplate(template));
+  };
 
   if (loading) return <CircularProgress />;
 
@@ -30,19 +35,24 @@ const Templates = () => {
 
   return (
     <Grid container spacing={4}>
-      {templates.map((e) => {
+      {templates.map((item) => {
         return (
           <Grid item xs={12} sm={6} md={3} lg={4}>
             <Paper>
               <Card>
-                <CardMedia component="img" image={e.img} alt="item" />
+                <CardMedia component="img" image={item.img} alt="item" />
                 <CardContent>
                   <Typography variant="body2" color="text.secondary">
-                    {e.tags.map((e) => "#" + e + " ")}
+                    {item.tags.map((e) => "#" + e + " ")}
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button color={"primary"} variant={"contained"} size="medium">
+                  <Button
+                    onClick={() => handleSelectImage(item)}
+                    color={"primary"}
+                    variant={"contained"}
+                    size="medium"
+                  >
                     Выбрать
                   </Button>
                 </CardActions>
