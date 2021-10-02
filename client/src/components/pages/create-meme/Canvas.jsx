@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { saveAs } from "file-saver";
 import { useSelector } from "react-redux";
 
-
 const useStyles = makeStyles({
   templateWrapper: {
     width: 400,
@@ -27,12 +26,6 @@ const Canvas = () => {
   );
 
   const template = useSelector((state) => state.templates.template);
-  console.log(template?.img, "template");
-
-  const [templateImg, setTemplateImage] = useState(template);
-
-
-  console.log(templateImg, "state");
 
   const instance = useRef(null);
 
@@ -48,18 +41,20 @@ const Canvas = () => {
       },
     });
 
-    if (templateImg) {
-
-      setTemplateImage(template.img);
-      console.log(templateImg, 'state')
-      instance.current.loadImageFromURL(templateImg, "lena").then((result) => {
-        console.log("old : " + result.oldWidth + ", " + result.oldHeight);
-        console.log("new : " + result.newWidth + ", " + result.newHeight);
-      });
-    }
-
     instance.current.startDrawingMode("TEXT");
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      console.log(template);
+      await instance.current
+        .loadImageFromURL(template, "lena")
+        .then((result) => {
+          console.log("old : " + result.oldWidth + ", " + result.oldHeight);
+          console.log("new : " + result.newWidth + ", " + result.newHeight);
+        });
+    })();
+  }, [template]);
 
   const handleAddImage = () => {
     instance.current
@@ -96,7 +91,7 @@ const Canvas = () => {
         <button onClick={handleAddText}>Текст</button>
         <button onClick={handleDownload}>Скачать</button>
       </div>
-      <img src={templateImg} alt="asd" />
+      {/* <img src={templateImg} alt="asd" /> */}
     </>
   );
 };
