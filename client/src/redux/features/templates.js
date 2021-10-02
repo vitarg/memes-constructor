@@ -28,7 +28,7 @@ export default function templates(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        template: action.payload.img,
+        template: action.payload,
       };
     default:
       return state;
@@ -51,3 +51,4 @@ export const getTemplates = () => async (dispatch) => {
 export const selectTemplate = (template) => (dispatch) => {
   dispatch({ type: "templates/selectTemplate", payload: template });
 };
+

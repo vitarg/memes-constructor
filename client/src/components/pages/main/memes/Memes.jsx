@@ -14,13 +14,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import { likeMeme } from "../../../../redux/features/memes";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import createSpacing from "@material-ui/core/styles/createSpacing";
 import Pending from "../../preloader/Pending";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { getMemes } from "../../../../redux/features/memes";
+import DownloadIcon from "@mui/icons-material/Download";
 
 const useStyles = makeStyles({
   pages: {
@@ -127,7 +127,7 @@ const Memes = () => {
                   <Card sx={{ maxWidth: 345 }}>
                     <CardMedia
                       component="img"
-                      alt="green iguana"
+                      alt={item.img}
                       image={item.img}
                     />
                     <CardActions>
@@ -139,17 +139,21 @@ const Memes = () => {
                       >
                         Подробнее
                       </Button>
-                      <Button variant="contained" color={"secondary"}>
-                        Сохранить ;
+                      <Button
+                        variant="contained"
+                        color={"default"}
+                        endIcon={<DownloadIcon />}
+                      >
+                        Скачать
                       </Button>
                       <Button
                         className={classes.like}
                         onClick={() => handleLike(item._id)}
                         startIcon={
                           item.likes.find((item) => userId === item) ? (
-                            <FavoriteIcon className={classes.icon} />
+                            <FavoriteIcon className={classes.likedIcon} />
                           ) : (
-                            <FavoriteBorderIcon className={classes.icon} />
+                            <FavoriteBorderIcon className={classes.notLikedIcon} />
                           )
                         }
                       >

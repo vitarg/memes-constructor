@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { saveAs } from "file-saver";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addMeme } from "../../../redux/features/memes";
 
 const useStyles = makeStyles({
   templateWrapper: {
@@ -21,11 +22,13 @@ const useStyles = makeStyles({
 const Canvas = () => {
   const classes = useStyles();
 
-  const [select, setSelect] = useState(
-    "Вы можете выбрать один из шаблонов или загрузить свой"
-  );
+  const dispatch = useDispatch();
 
   const template = useSelector((state) => state.templates.template);
+
+  const canvasTitle = template
+    ? ""
+    : "Вы можете выбрать один из шаблонов или загрузить свой";
 
   const instance = useRef(null);
 
@@ -46,29 +49,14 @@ const Canvas = () => {
 
   useEffect(() => {
     (async () => {
-      console.log(template);
       await instance.current
-        .loadImageFromURL(template, "lena")
+        .loadImageFromURL(template?.img, "lena")
         .then((result) => {
           console.log("old : " + result.oldWidth + ", " + result.oldHeight);
           console.log("new : " + result.newWidth + ", " + result.newHeight);
         });
     })();
   }, [template]);
-
-  const handleAddImage = () => {
-    instance.current
-      .loadImageFromURL(
-        "https://images.ctfassets.net/hrltx12pl8hq/7yQR5uJhwEkRfjwMFJ7bUK/dc52a0913e8ff8b5c276177890eb0129/offset_comp_772626-opt.jpg?fit=fill&w=800&h=300",
-        "lena"
-      )
-      .then((result) => {
-        console.log("old : " + result.oldWidth + ", " + result.oldHeight);
-        console.log("new : " + result.newWidth + ", " + result.newHeight);
-      });
-
-    setSelect("");
-  };
 
   const handleAddText = async () => {
     await instance.current.on("addText", ({ originPosition }) => {
@@ -82,16 +70,19 @@ const Canvas = () => {
     saveAs(instance.current.toDataURL());
   };
 
+  const handlePublication = () => {
+    dispatch(addMeme(instance.current.toDataURL(), template));
+  };
+
   return (
     <>
-      <div className={"select"}>{select}</div>
+      <div className={"select"}>{canvasTitle}</div>
       <div id={"canvas"} className={classes.canvas} />
       <div>
-        <button onClick={handleAddImage}>Картинка</button>
-        <button onClick={handleAddText}>Текст</button>
+        <button onClick={handleAddText}>Добавить текст</button>
+        <button onClick={handlePublication}>Опубликовать</button>
         <button onClick={handleDownload}>Скачать</button>
       </div>
-      {/* <img src={templateImg} alt="asd" /> */}
     </>
   );
 };
