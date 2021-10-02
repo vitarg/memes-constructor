@@ -64,6 +64,23 @@ export default function memes(state = initialState, action) {
         ...state,
         memes: action.payload,
       };
+    case "memes/add-meme/pending":
+      return {
+        ...state,
+        loading: true,
+      };
+    case "memes/add-meme/fulfilled":
+      return {
+        ...state,
+        loading: false,
+        memes: [...state.memes, action.payload],
+      };
+    case "memes/add-meme/rejected":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
     default:
       return state;
   }
@@ -138,4 +155,25 @@ export const rndMeme = () => {
       dispatch({ type: "memes/rnd/rejected", error: e.toString() });
     }
   };
+};
+
+export const addMeme = (file, template) => async (dispatch) => {
+  dispatch({ type: "memes/add-meme/pending" });
+
+  const response = await fetch(`/memes`, {
+    method: "POST",
+    body: JSON.stringify({ file, template }),
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  const json = response.json();
+
+  if (json.error) {
+    dispatch({ type: "memes/add-meme/rejected", payload: json.error });
+  } else {
+    dispatch({ type: "memes/add-meme/fulfilled", payload: json });
+  }
 };
