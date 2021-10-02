@@ -94,7 +94,7 @@ const Memes = () => {
 
   const handleSave = (img) => {
     const FileSaver = require('file-saver');
-    FileSaver.saveAs(`${img}`, "image.jpg");
+    FileSaver.saveAs(`${img}`, "image.jpg")
   }
 
   const data = memes.filter((item) => {
