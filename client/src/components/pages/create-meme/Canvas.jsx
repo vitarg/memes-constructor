@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { saveAs } from "file-saver";
 import { useDispatch, useSelector } from "react-redux";
 import { addMeme } from "../../../redux/features/memes";
-import { Box, Button, Grid, Typography } from "@material-ui/core";
+import { Box, Button, Grid } from "@material-ui/core";
 import DownloadIcon from "@mui/icons-material/Download";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 const useStyles = makeStyles({
   container: {
@@ -34,7 +35,39 @@ const useStyles = makeStyles({
     flexDirection: "column",
     justifyContent: "space-between",
   },
+  toolsHeader: {
+    height: 100,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
   toolsFooter: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  white: {
+    margin: "0 5px",
+    padding: 0,
+    width: 36,
+    height: 36,
+    background: "white",
+    border: "none",
+    boxShadow: "0 0 2px rgba(0,0,0,.25)",
+    borderRadius: 4,
+    cursor: "pointer",
+  },
+  black: {
+    margin: "0 5px",
+    padding: 0,
+    width: 36,
+    height: 36,
+    background: "black",
+    border: "none",
+    boxShadow: "0 0 2px rgba(0,0,0,.25)",
+    borderRadius: 4,
+    cursor: "pointer",
+  },
+  addTextBox: {
     display: "flex",
     justifyContent: "space-between",
   },
@@ -42,12 +75,9 @@ const useStyles = makeStyles({
 
 const Canvas = () => {
   const classes = useStyles();
-
   const dispatch = useDispatch();
-
-  const template = useSelector((state) => state.templates.template);
-
   const instance = useRef(null);
+  const template = useSelector((state) => state.templates.template);
 
   useEffect(() => {
     const ImageEditor = require("tui-image-editor");
@@ -78,6 +108,13 @@ const Canvas = () => {
   const handleAddText = async () => {
     await instance.current.on("addText", ({ originPosition }) => {
       instance.current.addText("", {
+        styles: {
+          fill: "white",
+          textAlign: "center",
+          fontStyle: "bold",
+          fontFamily: "Impact",
+          stroke: "black",
+        },
         position: originPosition,
       });
     });
@@ -97,17 +134,17 @@ const Canvas = () => {
         <div id={"canvas"} className={classes.canvas} />
       </Grid>
       <Grid item xs={4} className={classes.tools}>
-        <Button variant={"contained"} onClick={handleAddText}>
-          Добавить текст
-        </Button>
-        <Box className={classes.toolsFooter}>
-          <Button
-            color={"primary"}
-            variant={"contained"}
-            onClick={handlePublication}
-          >
-            Опубликовать
+        <Box className={classes.toolsHeader}>
+          <Box className={classes.addTextBox}>
+            <Button variant={"contained"} onClick={handleAddText}>
+              Добавить текст
+            </Button>
+          </Box>
+          <Button disabled variant={"contained"} endIcon={<FileUploadIcon />}>
+            Загрузить свою картинку
           </Button>
+        </Box>
+        <Box className={classes.toolsFooter}>
           <Button
             endIcon={<DownloadIcon />}
             color={"secondary"}
@@ -115,6 +152,13 @@ const Canvas = () => {
             onClick={handleDownload}
           >
             Скачать
+          </Button>
+          <Button
+            color={"primary"}
+            variant={"contained"}
+            onClick={handlePublication}
+          >
+            Опубликовать
           </Button>
         </Box>
       </Grid>
