@@ -1,10 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { saveAs } from "file-saver";
 import { useDispatch, useSelector } from "react-redux";
 import { addMeme } from "../../../redux/features/memes";
+import { Box, Button, Grid, Typography } from "@material-ui/core";
+import DownloadIcon from "@mui/icons-material/Download";
 
 const useStyles = makeStyles({
+  container: {
+    padding: 40,
+  },
   templateWrapper: {
     width: 400,
     height: 400,
@@ -14,8 +19,24 @@ const useStyles = makeStyles({
     alignItems: "center",
   },
   canvas: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "0 auto",
     width: "80%",
     height: 500,
+    background: "#e5e5e5",
+    borderRadius: 4,
+    boxShadow: "0 .5rem 1rem rgba(0, 0, 0, .15)",
+  },
+  tools: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  toolsFooter: {
+    display: "flex",
+    justifyContent: "space-between",
   },
 });
 
@@ -25,10 +46,6 @@ const Canvas = () => {
   const dispatch = useDispatch();
 
   const template = useSelector((state) => state.templates.template);
-
-  const canvasTitle = template
-    ? ""
-    : "Вы можете выбрать один из шаблонов или загрузить свой";
 
   const instance = useRef(null);
 
@@ -75,15 +92,33 @@ const Canvas = () => {
   };
 
   return (
-    <>
-      <div className={"select"}>{canvasTitle}</div>
-      <div id={"canvas"} className={classes.canvas} />
-      <div>
-        <button onClick={handleAddText}>Добавить текст</button>
-        <button onClick={handlePublication}>Опубликовать</button>
-        <button onClick={handleDownload}>Скачать</button>
-      </div>
-    </>
+    <Grid container spacing={4} className={classes.container}>
+      <Grid item xs={8}>
+        <div id={"canvas"} className={classes.canvas} />
+      </Grid>
+      <Grid item xs={4} className={classes.tools}>
+        <Button variant={"contained"} onClick={handleAddText}>
+          Добавить текст
+        </Button>
+        <Box className={classes.toolsFooter}>
+          <Button
+            color={"primary"}
+            variant={"contained"}
+            onClick={handlePublication}
+          >
+            Опубликовать
+          </Button>
+          <Button
+            endIcon={<DownloadIcon />}
+            color={"secondary"}
+            variant={"contained"}
+            onClick={handleDownload}
+          >
+            Скачать
+          </Button>
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 

@@ -22,6 +22,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { getMemes } from "../../../../redux/features/memes";
 import DownloadIcon from "@mui/icons-material/Download";
 import { saveAs } from "file-saver";
+import CachedIcon from "@mui/icons-material/Cached";
 
 const useStyles = makeStyles({
   pages: {
@@ -119,7 +120,7 @@ const Memes = () => {
           value={search}
           variant={"outlined"}
         />
-        <Link to={"/randomMeme"}>Рандомный мэм</Link>
+
       </div>
       {loading ? (
         <Pending />

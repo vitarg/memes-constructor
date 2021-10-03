@@ -30,11 +30,11 @@ module.exports.memesController = {
       const { file, template } = await req.body;
 
       const fileName = `${uuidv4()}`;
-      console.log(fileName, 'файлнейм')
+
       const base64Str = file;
       const pathForMeme = path.resolve(__dirname, "../public/img", fileName);
       const optionalObj = { fileName: 'da', type: "jpeg" };
-      console.log(optionalObj, 'объект')
+
       base64ToImage(base64Str, pathForMeme, optionalObj);
 
       let tagsAuto = "";
