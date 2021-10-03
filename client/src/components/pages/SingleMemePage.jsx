@@ -5,7 +5,6 @@ import {
   Avatar,
   CardMedia,
   Box,
-  makeStyles,
   TextField,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
@@ -22,6 +21,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 function SingleMemePage(props) {
   const dispatch = useDispatch();
+
   const memes = useSelector((state) => state.memes.memes);
   const comments = useSelector((state) => state.comments.comments);
   const loading = useSelector((state) => state.comments.loading);
@@ -51,11 +51,9 @@ function SingleMemePage(props) {
 
   const find = memes.find((item) => id === item._id);
 
-  const findComm = comments.filter((item) => {
-    if (item.memeId === id) {
-      return item;
-    }
-  });
+  console.log(find, "find");
+
+  const findComm = comments.filter((item) => item.memeId === id);
 
   if (find) {
     return (
@@ -67,7 +65,7 @@ function SingleMemePage(props) {
             <Grid container>
               <Grid item xs={5}>
                 <Box style={{ padding: "20px 20px" }}>
-                  <CardMedia component={"img"} src={find.img} />
+                  <CardMedia component={"img"} src={find.img} alt={find.img} />
                 </Box>
               </Grid>
             </Grid>
