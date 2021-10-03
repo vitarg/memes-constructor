@@ -153,7 +153,9 @@ const Memes = () => {
                           item.likes.find((item) => userId === item) ? (
                             <FavoriteIcon className={classes.likedIcon} />
                           ) : (
-                            <FavoriteBorderIcon className={classes.notLikedIcon} />
+                            <FavoriteBorderIcon
+                              className={classes.notLikedIcon}
+                            />
                           )
                         }
                       >
