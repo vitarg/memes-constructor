@@ -22,7 +22,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { getMemes } from "../../../../redux/features/memes";
 import DownloadIcon from "@mui/icons-material/Download";
 import { saveAs } from "file-saver";
-import CachedIcon from "@mui/icons-material/Cached";
 
 const useStyles = makeStyles({
   pages: {
@@ -68,6 +67,22 @@ const useStyles = makeStyles({
     fontSize: "24px !important",
     color: "#171717",
   },
+  imageMem: {
+    position: 'relative',
+    width: 400,
+    height: 450,
+    margin: 'auto',
+    lineHeight: 100
+  },
+  imageCardMeme: {
+    position: 'absolute',
+    margin: 'auto',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    right: 0
+  }
+
 });
 
 const Memes = () => {
@@ -129,13 +144,16 @@ const Memes = () => {
           <Grid container spacing={3}>
             {data.map((item) => {
               return (
-                <Grid item xs={4}>
-                  <Card sx={{ maxWidth: 345 }}>
-                    <CardMedia
-                      component="img"
-                      alt={item.img}
-                      image={item.img}
-                    />
+                <Grid item xs={4} >
+                  <Card sx={{ maxWidth: 345 }} className={classes.cardMeme} >
+                    <div className={classes.imageMem}>
+                      <CardMedia
+                        component="img"
+                        alt={item.img}
+                        image={item.img}
+                        className={classes.imageCardMeme}
+                      />
+                    </div>
                     <CardActions>
                       <Button
                         component={Link}

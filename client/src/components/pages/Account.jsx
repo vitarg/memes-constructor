@@ -20,7 +20,8 @@ import EditIcon from "@material-ui/icons//Edit";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
-import Pending from "./preloader/Pending";
+import Pending from './preloader/Pending';
+import { saveAs } from "file-saver";
 
 const useStyles = makeStyles((theme) => ({
   profile: {
@@ -75,6 +76,10 @@ function Account() {
   const memes = useSelector((state) => state.memes.memes);
   const loading = useSelector((state) => state.memes.loading);
 
+  const handleSave = (img) => {
+    saveAs(`http://localhost:4000/${img}`, "meme.jpg");
+  };
+
   useEffect(() => {
     dispatch(getUser(id));
   }, []);
@@ -122,7 +127,7 @@ function Account() {
               onChange={(e) => handlerChange(e)}
               type="file"
               placeholder="загрузить аватар"
-            />
+            ></input>
             <button
               className={classes.delBtn}
               onClick={() => dispatch(deleteAvatar())}
@@ -140,9 +145,7 @@ function Account() {
           <Typography component="h1" variant="h4" className={classes.title}>
             Мои мемы
           </Typography>
-          {loading ? (
-            <Pending />
-          ) : (
+          {loading ? <Pending/> :
             <Grid container spacing={3}>
               {memes.map((item) => {
                 return (
@@ -150,15 +153,15 @@ function Account() {
                     <Card sx={{ maxWidth: 345 }}>
                       <CardMedia
                         component="img"
-                        alt={item.img}
+                        alt="green iguana"
                         image={`http://localhost:4000/${item.img}`}
                       />
                       <CardActions className={classes.btnCont}>
-                        <Button variant="secondary" color={"secondary"}>
-                          <GetAppIcon style={{ color: "black" }} />
+                        <Button variant="secondary" color={"secondary"} onClick={() => handleSave(item.img)}>
+                          <GetAppIcon style={{ color: "black" }}/>
                         </Button>
                         <Button variant="secondary" color={"secondary"}>
-                          <BookmarkIcon />
+                          <BookmarkIcon/>
                         </Button>
                       </CardActions>
                     </Card>
@@ -166,7 +169,7 @@ function Account() {
                 );
               })}
             </Grid>
-          )}
+          }
         </Grid>
       </Grid>
     </>

@@ -9,7 +9,6 @@ import Account from "./pages/Account";
 import CreateMemePage from "./pages/create-meme/CreateMemePage";
 import SingleMemePage from "./pages/SingleMemePage";
 import RandomMemePage from "./pages/RandomMemePage";
-import { Button } from "@material-ui/core";
 
 const App = () => {
   return (
