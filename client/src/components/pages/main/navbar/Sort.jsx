@@ -15,7 +15,7 @@ const Sort = () => {
   }, [sort]);
   return (
     <div>
-      <FormControl required sx={{ m: 1, minWidth: 120 }}>
+      <FormControl required sx={{ m: 1, minWidth: 120 }} style={{width: 220}}>
         <InputLabel id="demo-simple-select-required-label">
           Сортировать
         </InputLabel>

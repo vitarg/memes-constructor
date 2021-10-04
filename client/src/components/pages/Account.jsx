@@ -21,6 +21,7 @@ import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
 import Pending from './preloader/Pending';
+import { saveAs } from "file-saver";
 
 const useStyles = makeStyles((theme) => ({
   profile: {
@@ -74,6 +75,10 @@ function Account() {
   const user = useSelector((state) => state.application.user);
   const memes = useSelector((state) => state.memes.memes);
   const loading = useSelector((state) => state.memes.loading);
+
+  const handleSave = (img) => {
+    saveAs(`http://localhost:4000/${img}`, "meme.jpg");
+  };
 
   useEffect(() => {
     dispatch(getUser(id));
@@ -149,10 +154,10 @@ function Account() {
                       <CardMedia
                         component="img"
                         alt="green iguana"
-                        image={item.img}
+                        image={`http://localhost:4000/${item.img}`}
                       />
                       <CardActions className={classes.btnCont}>
-                        <Button variant="secondary" color={"secondary"}>
+                        <Button variant="secondary" color={"secondary"} onClick={() => handleSave(item.img)}>
                           <GetAppIcon style={{ color: "black" }}/>
                         </Button>
                         <Button variant="secondary" color={"secondary"}>
