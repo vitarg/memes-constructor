@@ -23,8 +23,8 @@ function RandomMemePage(props) {
       <Grid container spacing={3}>
         <Grid item xs={3}>
           <Card sx={{ maxWidth: 345 }}>
-            <CardMedia component="img" alt="green iguana" image={memes.img} />
-            <CardActions></CardActions>
+            <CardMedia component="img" alt="green iguana" image={memes[0].img} />
+            <CardActions/>
           </Card>
         </Grid>
       </Grid>
