@@ -65,7 +65,7 @@ function SingleMemePage(props) {
             <Grid container>
               <Grid item xs={5}>
                 <Box style={{ padding: "20px 20px" }}>
-                  <CardMedia component={"img"} src={find.img} alt={find.img} />
+                  <CardMedia component={"img"} src={`http://localhost:4000/${find.img}`} alt={find.img} />
                 </Box>
               </Grid>
             </Grid>
