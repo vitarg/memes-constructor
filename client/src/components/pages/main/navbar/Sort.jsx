@@ -7,9 +7,10 @@ import { useDispatch} from "react-redux";
 import { getMemes } from "../../../../redux/features/memes";
 
 const Sort = () => {
-  const [sort, setSort] = useState("");
+  const [sort, setSort] = useState("По умолчанию");
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getMemes(sort));
   }, [sort]);

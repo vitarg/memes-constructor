@@ -37,19 +37,19 @@ module.exports.memesController = {
 
       base64ToImage(base64Str, pathForMeme, optionalObj);
 
-      let tagsAuto = "";
-
-      if (template.tags !== undefined) {
-        tagsAuto = template.tags.concat(template.tags);
-      } else {
-        tagsAuto = template.tags;
-      }
+      // let tagsAuto = "";
+      //
+      // if (template.tags !== undefined) {
+      //   tagsAuto = template.tags.concat(template.tags);
+      // } else {
+      //   tagsAuto = template.tags;
+      // }
 
       const meme = await Meme.create({
         img: `img/${fileName}da.jpeg`,
         author: payload.id,
         likes: [],
-        tags: tagsAuto,
+        tags: template.tags,
         templateId: template.id,
       });
       res.json(meme);
