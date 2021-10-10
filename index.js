@@ -12,7 +12,10 @@ app.use(
   express.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 })
 );
 app.use(cors());
-app.use(express.static(path.resolve(__dirname, "client", "public")));
+app.use(express.static(path.resolve(__dirname, "client", "build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
 app.use(fileUpload());
 app.use(require("./routes/index"));
 
