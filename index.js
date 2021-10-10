@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 const fileUpload = require("express-fileupload");
+const path = require("path");
 
 const app = express();
 
@@ -11,7 +12,7 @@ app.use(
   express.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 })
 );
 app.use(cors());
-app.use(express.static("public"));
+app.use(express.static(path.resolve(__dirname, "client", "public")));
 app.use(fileUpload());
 app.use(require("./routes/index"));
 
