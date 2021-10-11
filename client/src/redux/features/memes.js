@@ -1,6 +1,7 @@
 const initialState = {
   memes: [],
   loading: false,
+  error: null,
 };
 
 export default function memes(state = initialState, action) {
