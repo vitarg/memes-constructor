@@ -12,15 +12,18 @@ app.use(
   express.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 })
 );
 app.use(cors());
+app.use(express.static(path.resolve(__dirname, "public")));
+
 app.use(express.static(path.resolve(__dirname, "client", "build")));
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 });
+
 app.use(fileUpload());
 app.use(require("./routes/index"));
 
 mongoose.connect(process.env.MONGO).then(() => {
-  app.listen(process.env.PORT, () => console.log("Server has been started..."));
+  app.listen(process.env.PORT || 4000, () => console.log("Server has been started..."));
 
   console.log("Connected with MongoDB");
 });
