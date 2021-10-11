@@ -2,7 +2,6 @@ import React from "react";
 import Memes from "./memes/Memes";
 import TopNavbar from "./navbar/TopNavbar";
 import { useSelector } from "react-redux";
-import Footer from '../../Footer/Footer';
 
 const MainPage = () => {
   const currentPage = useSelector((state) => state.memes.currentPage);
@@ -11,7 +10,6 @@ const MainPage = () => {
     <div style={{ padding: 30}}>
       <TopNavbar currentPage={currentPage} />
       <Memes currentPage={currentPage} />
-      <Footer/>
     </div>
   );
 };
