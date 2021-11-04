@@ -63,7 +63,7 @@ export default function memes(state = initialState, action) {
     case "memes/rnd/fulfilled":
       return {
         ...state,
-        memes: [action.payload],
+        memes: action.payload,
       };
     case "memes/add-meme/pending":
       return {

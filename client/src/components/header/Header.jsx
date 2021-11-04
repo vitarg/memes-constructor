@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/features/application";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import logo from "../../logo.svg";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -15,7 +16,11 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px 30px ",
   },
   logoHeader: {
-    width: "90px",
+    width: "40px",
+    marginRight: 10,
+  },
+  logoText: {
+    fontSize: 24,
   },
   profile: {
     display: "flex",
@@ -54,11 +59,8 @@ function Header() {
     <AppBar position={"static"}>
       <Box className={classes.header}>
         <Button component={Link} to={"/"}>
-          <img
-            className={classes.logoHeader}
-            src={"https://www.iloveimg.com/img/iloveimg.svg"}
-            alt={"logo"}
-          />
+          <img className={classes.logoHeader} src={logo} alt={"logo"} />
+          <span className={classes.logoText}>Memash</span>
         </Button>
         {!token ? (
           <Button variant="contained" component={Link} to={"/sign-in"}>

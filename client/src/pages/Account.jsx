@@ -5,8 +5,8 @@ import {
   deleteAvatar,
   getUser,
   uploadAvatar,
-} from "../../redux/features/application";
-import { getMemesByAuthor } from "../../redux/features/memes";
+} from "../redux/features/application";
+import { getMemesByAuthor } from "../redux/features/memes";
 import {
   Grid,
   Typography,
@@ -20,7 +20,7 @@ import EditIcon from "@material-ui/icons//Edit";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
-import Pending from './preloader/Pending';
+import Pending from '../components/preloader/Pending';
 import { saveAs } from "file-saver";
 
 const useStyles = makeStyles((theme) => ({

@@ -4,7 +4,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { useDispatch} from "react-redux";
-import { getMemes } from "../../../../redux/features/memes";
+import { getMemes } from "../../../redux/features/memes";
 
 const Sort = () => {
   const [sort, setSort] = useState("По умолчанию");

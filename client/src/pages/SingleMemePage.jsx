@@ -10,10 +10,10 @@ import {
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { getMemes } from "../../redux/features/memes";
-import { getComments } from "../../redux/features/comments";
-import { createComments } from "../../redux/features/comments";
-import Pending from "./preloader/Pending";
+import { getMemes } from "../redux/features/memes";
+import { getComments } from "../redux/features/comments";
+import { createComments } from "../redux/features/comments";
+import Pending from "../components/preloader/Pending";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";

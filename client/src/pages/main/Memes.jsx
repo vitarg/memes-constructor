@@ -11,15 +11,15 @@ import {
 } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { likeMeme } from "../../../../redux/features/memes";
+import { likeMeme } from "../../redux/features/memes";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import Pending from "../../preloader/Pending";
+import Pending from "../../components/preloader/Pending";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { getMemes } from "../../../../redux/features/memes";
+import { getMemes } from "../../redux/features/memes";
 import DownloadIcon from "@mui/icons-material/Download";
 import { saveAs } from "file-saver";
 

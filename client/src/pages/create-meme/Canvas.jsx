@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { saveAs } from "file-saver";
 import { useDispatch, useSelector } from "react-redux";
-import { addMeme } from "../../../redux/features/memes";
+import { addMeme } from "../../redux/features/memes";
 import { Box, Button, Grid } from "@material-ui/core";
 import DownloadIcon from "@mui/icons-material/Download";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
