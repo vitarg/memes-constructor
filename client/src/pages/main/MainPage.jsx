@@ -1,5 +1,5 @@
 import React from "react";
-import Memes from "./memes/Memes";
+import Memes from "./Memes";
 import TopNavbar from "./navbar/TopNavbar";
 import { useSelector } from "react-redux";
 

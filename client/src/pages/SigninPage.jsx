@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { auth } from "../../redux/features/application";
+import { auth } from "../redux/features/application";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 

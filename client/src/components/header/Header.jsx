@@ -60,7 +60,7 @@ function Header() {
       <Box className={classes.header}>
         <Button component={Link} to={"/"}>
           <img className={classes.logoHeader} src={logo} alt={"logo"} />
-          <span className={classes.logoText}>MEME MAKER</span>
+          <span className={classes.logoText}>Memash</span>
         </Button>
         {!token ? (
           <Button variant="contained" component={Link} to={"/sign-in"}>

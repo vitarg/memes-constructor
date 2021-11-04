@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { getTemplates, selectTemplate } from "../../../redux/features/templates";
+import { getTemplates, selectTemplate } from "../../redux/features/templates";
 
 const Templates = () => {
   const dispatch = useDispatch();
