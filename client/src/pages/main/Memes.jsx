@@ -85,8 +85,9 @@ const useStyles = makeStyles({
 });
 
 const Memes = () => {
-  const dispatch = useDispatch();
   const classes = useStyles();
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getMemes());
@@ -194,7 +195,7 @@ const Memes = () => {
               );
             })}
           </Grid>
-          {alert ? (
+          {alert && (
             <Stack
               sx={{
                 width: "30%",
@@ -222,8 +223,6 @@ const Memes = () => {
                 Для этого действия нужно авторизоваться
               </Alert>
             </Stack>
-          ) : (
-            <></>
           )}
         </>
       )}
