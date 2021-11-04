@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/features/application";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import logo from "../../logo.svg";
 
 const useStyles = makeStyles((theme) => ({
@@ -12,15 +13,17 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     height: "60px",
-    backgroundColor: "#fff",
+    backgroundColor: "#2a9d8f",
     padding: "10px 30px ",
   },
   logoHeader: {
-    width: "40px",
+    width: "60px",
     marginRight: 10,
   },
   logoText: {
     fontSize: 24,
+    fontWeight: 600,
+    color: "white",
   },
   profile: {
     display: "flex",
@@ -40,6 +43,14 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "black",
     },
     color: "white",
+  },
+  signIn: {
+    borderRadius: 99,
+    padding: "6px 25px",
+    background: "#e9c46a",
+    "&:hover": {
+      background: "#90be6d",
+    },
   },
 }));
 
@@ -63,7 +74,13 @@ function Header() {
           <span className={classes.logoText}>Memash</span>
         </Button>
         {!token ? (
-          <Button variant="contained" component={Link} to={"/sign-in"}>
+          <Button
+            className={classes.signIn}
+            variant="contained"
+            component={Link}
+            to={"/sign-in"}
+            startIcon={<ExitToAppIcon />}
+          >
             Войти
           </Button>
         ) : (
@@ -84,6 +101,7 @@ function Header() {
           </Box>
         )}
       </Box>
+
     </AppBar>
   );
 }

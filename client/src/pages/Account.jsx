@@ -20,7 +20,7 @@ import EditIcon from "@material-ui/icons//Edit";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
-import Pending from '../components/preloader/Pending';
+import Pending from "../components/preloader/Pending";
 import { saveAs } from "file-saver";
 
 const useStyles = makeStyles((theme) => ({
@@ -127,7 +127,7 @@ function Account() {
               onChange={(e) => handlerChange(e)}
               type="file"
               placeholder="загрузить аватар"
-            ></input>
+            />
             <button
               className={classes.delBtn}
               onClick={() => dispatch(deleteAvatar())}
@@ -145,7 +145,9 @@ function Account() {
           <Typography component="h1" variant="h4" className={classes.title}>
             Мои мемы
           </Typography>
-          {loading ? <Pending/> :
+          {loading ? (
+            <Pending />
+          ) : (
             <Grid container spacing={3}>
               {memes.map((item) => {
                 return (
@@ -157,11 +159,15 @@ function Account() {
                         image={`http://localhost:4000/${item.img}`}
                       />
                       <CardActions className={classes.btnCont}>
-                        <Button variant="secondary" color={"secondary"} onClick={() => handleSave(item.img)}>
-                          <GetAppIcon style={{ color: "black" }}/>
+                        <Button
+                          variant="secondary"
+                          color={"secondary"}
+                          onClick={() => handleSave(item.img)}
+                        >
+                          <GetAppIcon style={{ color: "black" }} />
                         </Button>
                         <Button variant="secondary" color={"secondary"}>
-                          <BookmarkIcon/>
+                          <BookmarkIcon />
                         </Button>
                       </CardActions>
                     </Card>
@@ -169,7 +175,7 @@ function Account() {
                 );
               })}
             </Grid>
-          }
+          )}
         </Grid>
       </Grid>
     </>
