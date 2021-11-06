@@ -1,7 +1,6 @@
 import React from "react";
 
-import { BrowserRouter, Switch, Route} from "react-router-dom";
-import Header from "./components/header/Header";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import SignInPage from "./pages/SigninPage";
 import SignUpPage from "./pages/SignupPage";
 import MainPage from "./pages/main/MainPage";
@@ -9,6 +8,7 @@ import Account from "./pages/Account";
 import CreateMemePage from "./pages/create-meme/CreateMemePage";
 import SingleMemePage from "./pages/SingleMemePage";
 import RandomMemePage from "./pages/RandomMemePage";
+import Header from "./components/header";
 
 const App = () => {
   return (

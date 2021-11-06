@@ -1,11 +1,19 @@
 import React from "react";
-import { AppBar, Button, Box, makeStyles } from "@material-ui/core";
+import {
+  AppBar,
+  Button,
+  Box,
+  makeStyles,
+  Menu,
+  MenuItem,
+} from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/features/application";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import logo from "../../logo.svg";
+import { IconButton } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -16,20 +24,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#2a9d8f",
     padding: "10px 30px ",
   },
-  logoHeader: {
-    width: "60px",
-    marginRight: 10,
-  },
-  logoText: {
-    fontSize: 24,
-    fontWeight: 600,
-    color: "white",
-  },
+
   profile: {
     display: "flex",
     justifyContent: "space-around",
     alignItems: "center",
     width: "150px",
+    position: "relative",
   },
   profileLogo: {
     fontSize: "40px",
@@ -37,12 +38,10 @@ const useStyles = makeStyles((theme) => ({
   profileLogoLink: {
     color: "black",
   },
-  escBtn: {
-    backgroundColor: "black",
+  logOutBtn: {
     "&:hover": {
-      backgroundColor: "black",
+      background: "none",
     },
-    color: "white",
   },
   signIn: {
     borderRadius: 99,
@@ -57,6 +56,8 @@ const useStyles = makeStyles((theme) => ({
 function Header() {
   const classes = useStyles();
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
   const dispatch = useDispatch();
 
   const token = useSelector((state) => state.application.token);
@@ -66,13 +67,20 @@ function Header() {
     dispatch(logOut());
   };
 
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <AppBar position={"static"}>
       <Box className={classes.header}>
-        <Button component={Link} to={"/"}>
-          <img className={classes.logoHeader} src={logo} alt={"logo"} />
-          <span className={classes.logoText}>Memash</span>
-        </Button>
+
         {!token ? (
           <Button
             className={classes.signIn}
@@ -85,23 +93,38 @@ function Header() {
           </Button>
         ) : (
           <Box className={classes.profile}>
-            <Button
-              className={classes.escBtn}
-              variant="contained"
-              color="success"
-              onClick={handleLogout}
-              component={Link}
-              to={"/"}
+            {/*<Link className={classes.profileLogoLink} to={`/account/${id}`}>*/}
+            {/*  <AccountCircleIcon className={classes.profileLogo} />*/}
+            {/*</Link>*/}
+            <IconButton onClick={handleClick}>
+              <AccountCircleIcon />
+            </IconButton>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
             >
-              Выйти
-            </Button>
-            <Link className={classes.profileLogoLink} to={`/account/${id}`}>
-              <AccountCircleIcon className={classes.profileLogo} />
-            </Link>
+              <MenuItem onClick={handleClose}>Профиль</MenuItem>
+              <MenuItem onClick={handleClose}>Настройки</MenuItem>
+              <MenuItem onClick={handleClose}>
+                <Button
+                  className={classes.logOutBtn}
+                  variant={"default"}
+                  onClick={handleLogout}
+                  component={Link}
+                  to={"/"}
+                >
+                  Выйти
+                </Button>
+              </MenuItem>
+            </Menu>
           </Box>
         )}
       </Box>
-
     </AppBar>
   );
 }
