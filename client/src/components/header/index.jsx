@@ -1,21 +1,14 @@
 import React from "react";
-import {
-  AppBar,
-  Button,
-  Box,
-  makeStyles,
-  Menu,
-  MenuItem,
-} from "@material-ui/core";
+import { AppBar, Button, Box, makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logOut } from "../../redux/features/application";
+import { useSelector } from "react-redux";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import logo from "../../logo.svg";
 import { IconButton } from "@mui/material";
+import Logo from "./Logo";
+import HeaderMenu from "./HeaderMenu";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   header: {
     display: "flex",
     justifyContent: "space-between",
@@ -25,24 +18,6 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px 30px ",
   },
 
-  profile: {
-    display: "flex",
-    justifyContent: "space-around",
-    alignItems: "center",
-    width: "150px",
-    position: "relative",
-  },
-  profileLogo: {
-    fontSize: "40px",
-  },
-  profileLogoLink: {
-    color: "black",
-  },
-  logOutBtn: {
-    "&:hover": {
-      background: "none",
-    },
-  },
   signIn: {
     borderRadius: 99,
     padding: "6px 25px",
@@ -51,36 +26,24 @@ const useStyles = makeStyles((theme) => ({
       background: "#90be6d",
     },
   },
-}));
+});
 
 function Header() {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const dispatch = useDispatch();
+  const open = Boolean(anchorEl);
 
   const token = useSelector((state) => state.application.token);
-  const id = useSelector((state) => state.application.id);
-
-  const handleLogout = () => {
-    dispatch(logOut());
-  };
-
-  const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   return (
     <AppBar position={"static"}>
       <Box className={classes.header}>
-
+        <Logo />
         {!token ? (
           <Button
             className={classes.signIn}
@@ -92,36 +55,11 @@ function Header() {
             Войти
           </Button>
         ) : (
-          <Box className={classes.profile}>
-            {/*<Link className={classes.profileLogoLink} to={`/account/${id}`}>*/}
-            {/*  <AccountCircleIcon className={classes.profileLogo} />*/}
-            {/*</Link>*/}
+          <Box>
             <IconButton onClick={handleClick}>
-              <AccountCircleIcon />
+              <AccountCircleIcon fontSize={"large"} color={"primary"} />
             </IconButton>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
-              }}
-            >
-              <MenuItem onClick={handleClose}>Профиль</MenuItem>
-              <MenuItem onClick={handleClose}>Настройки</MenuItem>
-              <MenuItem onClick={handleClose}>
-                <Button
-                  className={classes.logOutBtn}
-                  variant={"default"}
-                  onClick={handleLogout}
-                  component={Link}
-                  to={"/"}
-                >
-                  Выйти
-                </Button>
-              </MenuItem>
-            </Menu>
+            <HeaderMenu anchor={anchorEl} open={open} setAnchor={setAnchorEl} />
           </Box>
         )}
       </Box>
