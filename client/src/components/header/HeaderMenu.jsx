@@ -5,7 +5,6 @@ import { logOut } from "../../redux/features/application";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 const useStyles = makeStyles({
@@ -49,11 +48,6 @@ const HeaderMenu = ({ anchor, open, setAnchor }) => {
           startIcon={<AccountCircleIcon />}
         >
           Профиль
-        </Button>
-      </MenuItem>
-      <MenuItem onClick={handleClose}>
-        <Button className={classes.menuBtn} startIcon={<SettingsIcon />}>
-          Настройки
         </Button>
       </MenuItem>
       <MenuItem>
