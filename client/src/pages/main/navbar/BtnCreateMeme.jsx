@@ -3,7 +3,7 @@ import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 
-const CreateMeme = () => {
+const BtnCreateMeme = () => {
   return (
     <Button
       variant="contained"
@@ -17,4 +17,4 @@ const CreateMeme = () => {
   );
 };
 
-export default CreateMeme;
+export default BtnCreateMeme;
