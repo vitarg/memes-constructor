@@ -1,27 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardMedia,
-  Grid,
-} from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { likeMeme } from "../../redux/features/memes";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import Pending from "../../components/preloader/Pending";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { getMemes } from "../../redux/features/memes";
-import DownloadIcon from "@mui/icons-material/Download";
-import { saveAs } from "file-saver";
+
+import Meme from "./Meme";
 
 const useStyles = makeStyles({
   pages: {
@@ -51,37 +40,6 @@ const useStyles = makeStyles({
     marginLeft: 10,
     cursor: "pointer",
   },
-  like: {
-    display: "flex",
-    marginLeft: "auto !important",
-    color: "red",
-  },
-  countLikes: {
-    color: "#171717",
-    fontSize: 16,
-  },
-  likedIcon: {
-    fontSize: "24px !important",
-  },
-  notLikedIcon: {
-    fontSize: "24px !important",
-    color: "#171717",
-  },
-  imageMem: {
-    position: "relative",
-    width: 400,
-    height: 450,
-    margin: "auto",
-    lineHeight: 100,
-  },
-  imageCardMeme: {
-    position: "absolute",
-    margin: "auto",
-    left: 0,
-    top: 0,
-    bottom: 0,
-    right: 0,
-  },
 });
 
 const Memes = () => {
@@ -93,38 +51,29 @@ const Memes = () => {
     dispatch(getMemes());
   }, []);
 
-  const userId = useSelector((state) => state.application.id);
   const memes = useSelector((state) => state.memes.memes);
   const loading = useSelector((state) => state.memes.loading);
-  const token = useSelector((state) => state.application.token);
 
-  const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const [alert, setAlert] = useState(false);
 
-  const handleLike = (idMeme) => {
-    if (!token) {
-      setAlert(true);
-    } else {
-      dispatch(likeMeme(idMeme));
-    }
-  };
-
-  const handleSave = (img) => {
-    saveAs(`http://localhost:4000/${img}`, "meme.jpg");
-  };
-
-  const data = memes.filter((item) => {
-    if (item.tags.length > 0) {
-      for (let i = 0; i < item.tags.length; i++) {
-        if (
-          item.tags[i] &&
-          item.tags[i].toLowerCase().includes(search.toLowerCase())
-        ) {
-          return item.tags[i].toLowerCase().includes(search.toLowerCase());
+  // eslint-disable-next-line array-callback-return
+  const searchResult = searchInput
+    ? memes.filter((meme) => {
+        if (meme.tags.length > 0) {
+          for (let i = 0; i < meme.tags.length; i++) {
+            if (
+              meme.tags[i] &&
+              meme.tags[i].toLowerCase().includes(searchInput.toLowerCase())
+            ) {
+              return meme.tags[i]
+                .toLowerCase()
+                .includes(searchInput.toLowerCase());
+            }
+          }
         }
-      }
-    }
-  });
+      })
+    : [];
 
   return (
     <Box sx={{ flexGrow: 1 }} style={{ marginTop: 30 }}>
@@ -133,8 +82,8 @@ const Memes = () => {
           id="outlined-search"
           label="Поиск по тегу"
           type="search"
-          onChange={(e) => setSearch(e.target.value)}
-          value={search}
+          onChange={(e) => setSearchInput(e.target.value)}
+          value={searchInput}
           variant={"outlined"}
         />
       </div>
@@ -143,56 +92,8 @@ const Memes = () => {
       ) : (
         <>
           <Grid container spacing={3}>
-            {data.map((item) => {
-              return (
-                <Grid item xs={4}>
-                  <Card sx={{ maxWidth: 345 }} className={classes.cardMeme}>
-                    <div className={classes.imageMem}>
-                      <CardMedia
-                        component="img"
-                        alt={item.img}
-                        image={item.img}
-                        className={classes.imageCardMeme}
-                      />
-                    </div>
-                    <CardActions>
-                      <Button
-                        component={Link}
-                        to={`/memes/${item._id}`}
-                        variant="contained"
-                        color={"primary"}
-                      >
-                        Подробнее
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color={"default"}
-                        endIcon={<DownloadIcon />}
-                        onClick={() => handleSave(item.img)}
-                      >
-                        Скачать
-                      </Button>
-                      <Button
-                        className={classes.like}
-                        onClick={() => handleLike(item._id)}
-                        startIcon={
-                          item.likes.find((item) => userId === item) ? (
-                            <FavoriteIcon className={classes.likedIcon} />
-                          ) : (
-                            <FavoriteBorderIcon
-                              className={classes.notLikedIcon}
-                            />
-                          )
-                        }
-                      >
-                        <span className={classes.countLikes}>
-                          {item.likes.length}
-                        </span>
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              );
+            {memes.map((meme) => {
+              return <Meme item={meme} setAlert={setAlert} />;
             })}
           </Grid>
           {alert && (
