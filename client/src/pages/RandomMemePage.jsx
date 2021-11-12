@@ -38,7 +38,7 @@ function RandomMemePage() {
           className={classes.img}
           component={"img"}
           alt="green iguana"
-          image={memes?.img}
+          image={memes[0]?.img}
         />
         <CardActions />
       </Card>
