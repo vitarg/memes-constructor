@@ -57,7 +57,7 @@ module.exports.memesController = {
       res.status(401).json({ error: e.toString() });
     }
   },
-  removeMeme: async (req, res) => {
+  removeMemeById: async (req, res) => {
     try {
       await Meme.findByIdAndRemove(req.params.memeId);
       res.json("Мем удален");
