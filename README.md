@@ -1,6 +1,6 @@
-# Memes Constructor
+# Memash
 
-Memes constructor - это fullstack приложение для постинга мемов.
+Memash - это fullstack приложение для постинга мемов.
 
 Приложение разработано в команде из трех разработчиков.
 
