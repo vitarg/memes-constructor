@@ -1,4 +1,4 @@
-# Memash
+# MemesConstructor
 
 Memash - это fullstack приложение для постинга мемов.
 
